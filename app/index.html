@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Kuravo</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+/* ==== Anamnese 2.2 — redesenho completo no estilo Apple ==== */
+:root{
+  --bg:#f2f2f7; --bg-2:#ffffff; --card:#ffffff; --text:#1d1d1f; --text-2:#3a3a3c; --muted:#86868b; --line:rgba(60,60,67,.14);
+  --fill:rgba(118,118,128,.12); --fill-2:rgba(118,118,128,.2); --fill-3:rgba(118,118,128,.08);
+  --brand:#6521DB; --brand-2:#8B5CF6; --brand-soft:rgba(101,33,219,.12); --on-brand:#fff;
+  --danger:#e3002b; --danger-soft:rgba(255,59,48,.12); --ok:#1f8f3a; --ok-soft:rgba(52,199,89,.16); --warn:#c25e00; --warn-soft:rgba(255,149,0,.16);
+  --material:rgba(246,246,248,.84); --material-strong:rgba(255,255,255,.82); --material-pop:rgba(252,252,253,.94); --material-edge:rgba(255,255,255,.6);
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 0 0 .5px rgba(0,0,0,.03);
+  --shadow-md:0 6px 20px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg:0 28px 70px rgba(0,0,0,.2),0 4px 14px rgba(0,0,0,.08);
+  --r-sm:10px; --r:14px; --r-lg:20px; --r-xl:26px;
+  --ease-out:cubic-bezier(.23,1,.32,1); --ease-io:cubic-bezier(.77,0,.175,1); --ease-drawer:cubic-bezier(.32,.72,0,1);
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#000; --bg-2:#1c1c1e; --card:#1c1c1e; --text:#f5f5f7; --text-2:#d1d1d6; --muted:#8e8e93; --line:rgba(84,84,88,.5);
+  --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.34); --fill-3:rgba(118,118,128,.14);
+  --brand:#A47BFF; --brand-2:#8B5CF6; --brand-soft:rgba(164,123,255,.18); --on-brand:#160833;
+  --danger:#ff453a; --danger-soft:rgba(255,69,58,.18); --ok:#30d158; --ok-soft:rgba(48,209,88,.16); --warn:#ff9f0a; --warn-soft:rgba(255,159,10,.16);
+  --material:rgba(22,22,24,.86); --material-strong:rgba(44,44,46,.84); --material-pop:rgba(44,44,46,.95); --material-edge:rgba(255,255,255,.08);
+  --shadow:none; --shadow-md:0 0 0 .5px rgba(255,255,255,.06); --shadow-lg:0 28px 70px rgba(0,0,0,.65),0 0 0 .5px rgba(255,255,255,.08);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root[data-theme="auto"]{
+    --bg:#000; --bg-2:#1c1c1e; --card:#1c1c1e; --text:#f5f5f7; --text-2:#d1d1d6; --muted:#8e8e93; --line:rgba(84,84,88,.5);
+    --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.34); --fill-3:rgba(118,118,128,.14);
+    --brand:#A47BFF; --brand-2:#8B5CF6; --brand-soft:rgba(164,123,255,.18); --on-brand:#160833;
+    --danger:#ff453a; --danger-soft:rgba(255,69,58,.18); --ok:#30d158; --ok-soft:rgba(48,209,88,.16); --warn:#ff9f0a; --warn-soft:rgba(255,159,10,.16);
+    --material:rgba(22,22,24,.86); --material-strong:rgba(44,44,46,.84); --material-pop:rgba(44,44,46,.95); --material-edge:rgba(255,255,255,.08);
+    --shadow:none; --shadow-md:0 0 0 .5px rgba(255,255,255,.06); --shadow-lg:0 28px 70px rgba(0,0,0,.65),0 0 0 .5px rgba(255,255,255,.08);
+    color-scheme:dark;
+  }
+}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+html,body{margin:0;min-height:100%;overscroll-behavior-y:none}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",system-ui,Roboto,sans-serif;
+  background:var(--bg);color:var(--text);font-size:16px;line-height:1.47;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;font-optical-sizing:auto}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+button,a,[role=button],label{touch-action:manipulation}
+button,.nav,.tab,.chip,.check,.day,.qa,.srow,.row-btn,.wdg,.face{-webkit-user-select:none;user-select:none}
+a{color:inherit}
+svg{display:block}
+.hidden{display:none!important}
+::selection{background:var(--brand-soft)}
+:focus-visible{outline:none}
+.btn:focus-visible,.nav:focus-visible,.tab:focus-visible,.qa:focus-visible,.row-btn:focus-visible,.ctl-btn:focus-visible,.ib:focus-visible,.mi:focus-visible,.wdg:focus-visible,.hero:focus-visible,.face:focus-visible,.item:focus-visible{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--brand)}
+
+/* ---------- estrutura ---------- */
+.app{display:flex;min-height:100vh}
+.side{width:264px;padding:18px 12px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;
+  background:var(--material);-webkit-backdrop-filter:blur(40px) saturate(180%);backdrop-filter:blur(40px) saturate(180%);border-right:.5px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;padding:6px 10px 14px}
+.brand b{display:block;font-size:17px;font-weight:700;letter-spacing:-.022em;line-height:1.15}
+.brand small{display:block;font-size:12px;color:var(--muted);letter-spacing:0}
+.logo{border-radius:23%;background:linear-gradient(180deg,#7A35F0 0%,#5419C4 100%);display:grid;place-items:center;color:#fff;flex-shrink:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.08),0 2px 6px rgba(0,110,130,.25)}
+.brand .logo{width:38px;height:38px}
+.brand .logo svg{width:20px;height:20px}
+.side-new{display:flex;align-items:center;justify-content:center;gap:7px;margin:0 2px 12px;padding:9px 12px;border:0;border-radius:12px;background:var(--brand);color:var(--on-brand);
+  font-weight:600;font-size:14.5px;transition:transform .12s var(--ease-out),filter .15s}
+.side-new svg{width:16px;height:16px}
+.side-new:active{transform:scale(.97)}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.nav{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:10px;border:0;background:none;color:var(--text);font-weight:500;font-size:15px;text-align:left;width:100%;
+  transition:background-color .15s ease,transform .1s var(--ease-out)}
+.nav svg{width:20px;height:20px;flex-shrink:0;color:var(--brand)}
+.nav:active{transform:scale(.98)}
+.nav.active{background:var(--brand);color:var(--on-brand);font-weight:600}
+.nav.active svg{color:var(--on-brand)}
+@media (hover:hover) and (pointer:fine){.nav:not(.active):hover{background:var(--fill)}.side-new:hover{filter:brightness(1.07)}}
+.side .spacer{flex:1}
+.side-acct{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:14px;background:var(--fill-3);text-align:left;transition:background-color .15s}
+.side-acct:active{background:var(--fill)}
+.sa-t{min-width:0;display:flex;flex-direction:column}
+.sa-t b{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sa-t small{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden}
+.sa-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
+.sa-dot.ok{background:var(--ok)}.sa-dot.warn{background:var(--warn)}.sa-dot.bad{background:var(--danger)}
+main{flex:1;min-width:0;padding:30px 44px 64px;max-width:1120px;margin:0 auto;width:100%}
+.bottom{display:none}
+
+/* ---------- título grande ---------- */
+.ptitle{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:6px 0 22px}
+.pt-text{min-width:0}
+.eyebrow{margin:0 0 2px;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--danger)}
+h1{font-size:36px;line-height:1.08;font-weight:700;letter-spacing:-.028em;margin:0}
+h2{font-size:20px;line-height:1.25;font-weight:600;letter-spacing:-.02em;margin:0}
+.sub{color:var(--muted);margin:4px 0 0;font-size:15.5px}
+.ptitle .actions{display:flex;gap:8px;flex-wrap:wrap}
+.pt-center{justify-content:center;text-align:center}
+.muted{color:var(--muted)}
+.hint{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+
+/* ---------- barra de navegação interna ---------- */
+.navbar{display:flex;align-items:center;gap:8px;margin:-8px 0 6px;min-height:40px}
+.navbar .grow{flex:1}
+.nb-back,.nb-btn{display:inline-flex;align-items:center;gap:2px;border:0;background:none;color:var(--brand);font-size:16.5px;font-weight:400;padding:6px 6px;margin-left:-6px;border-radius:10px;transition:opacity .15s}
+.nb-back svg{width:22px;height:22px;margin-right:-2px}
+.nb-btn{margin:0 -6px 0 0;font-weight:500}
+.nb-btn.b{font-weight:600}
+.nb-back:active,.nb-btn:active{opacity:.4}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 17px;min-height:40px;border-radius:999px;border:0;
+  background:var(--fill);color:var(--brand);font-weight:600;font-size:15px;letter-spacing:-.012em;white-space:nowrap;
+  transition:transform .12s var(--ease-out),background-color .15s ease,filter .15s ease,opacity .15s ease}
+.btn svg{width:17px;height:17px}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--brand);color:var(--on-brand)}
+.btn.danger{background:var(--danger-soft);color:var(--danger)}
+.btn.sm{padding:6px 13px;min-height:32px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:default;transform:none}
+@media (hover:hover) and (pointer:fine){.btn:not(.primary):not(:disabled):hover{background:var(--fill-2)}.btn.primary:hover{filter:brightness(1.08)}}
+a.btn{text-decoration:none}
+.ib{width:34px;height:34px;display:inline-grid;place-items:center;border:0;border-radius:50%;background:var(--fill);color:var(--brand);flex-shrink:0;transition:transform .12s var(--ease-out),background-color .15s}
+.ib svg{width:17px;height:17px}
+.ib:active{transform:scale(.92)}
+.ib.tint{background:var(--brand);color:var(--on-brand)}
+.lnk{display:inline-flex;align-items:center;gap:2px;border:0;background:none;color:var(--brand);font-weight:500;font-size:15px;text-decoration:none;padding:4px 2px}
+.lnk svg{width:15px;height:15px}
+.lnk.b{font-weight:600}
+.lnk:active{opacity:.5}
+.chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--brand-soft);color:var(--brand);letter-spacing:0;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}.chip.warn{background:var(--warn-soft);color:var(--warn)}.chip.bad{background:var(--danger-soft);color:var(--danger)}.chip.gray{background:var(--fill);color:var(--muted)}
+.chip.var{border:0;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;font-weight:500;padding:5px 10px;transition:transform .12s var(--ease-out)}
+.chip.var:active{transform:scale(.94)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags.pad{padding:14px 16px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+
+/* ícones em quadradinhos coloridos (como nos Ajustes do iPhone) */
+.sq{width:30px;height:30px;border-radius:8px;background:var(--c);color:#fff;display:inline-grid;place-items:center;flex-shrink:0;font-style:normal;
+  box-shadow:inset 0 .5px 0 rgba(255,255,255,.3)}
+.sq svg{width:17px;height:17px}
+
+/* avatares com cor própria por pessoa */
+.avatar{--h:190;width:40px;height:40px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:600;font-size:15px;letter-spacing:.01em;
+  background:linear-gradient(160deg,hsl(var(--h) 70% 66%),hsl(calc(var(--h) + 18) 62% 44%));box-shadow:inset 0 .5px 0 rgba(255,255,255,.35)}
+.avatar.sm{width:32px;height:32px;font-size:13px}
+.avatar.lg{width:52px;height:52px;font-size:19px}
+.avatar.xl{width:96px;height:96px;font-size:36px;font-weight:600}
+
+/* ---------- início: destaque + widgets ---------- */
+.hero{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;margin:0 0 16px;padding:22px 24px;border:0;border-radius:var(--r-xl);text-align:left;color:#fff;
+  background:radial-gradient(120% 140% at 0% 0%,#9461ff 0%,#6a28e3 42%,#4512b0 100%);box-shadow:0 10px 30px rgba(84,25,196,.25),inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;overflow:hidden;transition:transform .15s var(--ease-out)}
+.hero::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+button.hero:active{transform:scale(.985)}
+.hero-l{display:flex;flex-direction:column;gap:2px;min-width:0;z-index:1}
+.hero-k{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;opacity:.92}
+.hero-k svg{width:15px;height:15px}
+.hero-t{font-size:54px;line-height:1;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.hero-t.sm{font-size:26px;letter-spacing:-.025em;margin:8px 0 2px}
+.hero-d{font-size:15px;opacity:.9}
+.hero-r{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);min-width:0;z-index:1}
+.hero-r .avatar{box-shadow:0 0 0 2px rgba(255,255,255,.6)}
+.hero-who{min-width:0}
+.hero-who b{display:block;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.hero-who small{display:block;font-size:13.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.hero-r .chev{color:rgba(255,255,255,.8)}
+.hero .btn.on-hero{background:rgba(255,255,255,.22);color:#fff;z-index:1}
+.widgets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.wdg{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:16px 18px;border-radius:var(--r-lg);background:var(--card);
+  text-decoration:none;box-shadow:var(--shadow);transition:transform .15s var(--ease-out)}
+.wdg:active{transform:scale(.97)}
+.wdg .sq{grid-row:1/3;width:40px;height:40px;border-radius:11px}
+.wdg .sq svg{width:21px;height:21px}
+.wdg b{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.wdg span{font-size:13px;color:var(--muted);font-weight:500}
+.dash{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.panel{background:var(--card);border-radius:var(--r-lg);padding:16px 18px 10px;box-shadow:var(--shadow);min-width:0}
+.panel-h{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.panel-h .sq{width:26px;height:26px;border-radius:7px}.panel-h .sq svg{width:15px;height:15px}
+.panel-h h2{font-size:18px;flex:1}
+.faces{display:flex;gap:6px;overflow-x:auto;padding:6px 2px 10px;scrollbar-width:none;overscroll-behavior-x:contain}
+.faces::-webkit-scrollbar{display:none}
+.face{display:flex;flex-direction:column;align-items:center;gap:6px;width:74px;flex-shrink:0;border:0;background:none;padding:6px 2px;border-radius:14px;font-size:12.5px;color:var(--text-2);transition:transform .12s var(--ease-out),background-color .15s}
+.face span:last-child{max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.face:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.face:hover{background:var(--fill-3)}}
+
+/* ---------- listas e grupos ---------- */
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:12px;padding:10px 6px;margin:0 -6px;border-radius:12px;cursor:pointer;position:relative;transition:background-color .12s ease}
+.item+.item::before{content:"";position:absolute;left:58px;right:6px;top:0;height:.5px;background:var(--line)}
+.item:active{background:var(--fill)}
+@media (hover:hover) and (pointer:fine){.item:hover{background:var(--fill-3)}}
+.item .grow{flex:1;min-width:0}
+.item .grow b,.item .grow small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .grow b{font-weight:600;font-size:15.5px}
+.item small{color:var(--muted);font-size:13.5px}
+.chev{color:var(--muted);opacity:.55;display:inline-flex}
+.chev svg{width:15px;height:15px}
+.dot-warn{color:var(--danger);display:inline-flex}.dot-warn svg{width:16px;height:16px}
+.ev .ev-time{width:52px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums}
+.ev .ev-time b{display:block;font-size:15px;font-weight:600}
+.ev .ev-time small{display:block;font-size:11.5px;color:var(--muted)}
+.ev-bar{width:4px;align-self:stretch;border-radius:2px;background:var(--brand-2);flex-shrink:0;margin:2px 0}
+.ev-realizada .ev-bar{background:#34c759}.ev-cancelada .ev-bar{background:#8e8e93}.ev-faltou .ev-bar{background:#ff3b30}
+.ev-cancelada .grow b{text-decoration:line-through;color:var(--muted)}
+.item.ev+.item.ev::before{left:76px}
+.dayhdr{font-size:12.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);padding:12px 2px 4px}
+.dayhdr:first-child{padding-top:4px}
+.sec{font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin:26px 0 8px 18px}
+.group{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.group.list{padding:4px 16px}
+.group.list .item{margin:0 -10px;padding:10px}
+.group.list .item+.item::before{left:62px;right:0}
+.group.list .item.ev+.item.ev::before{left:84px}
+.group.list .dayhdr{padding-left:0}
+.group.pad{padding:16px}
+.none{padding:18px 16px;color:var(--muted);font-size:15px;text-align:center}
+.alpha .sec{position:sticky;top:0;z-index:2;margin:18px 0 6px;padding:6px 18px;background:linear-gradient(var(--bg) 70%,transparent);font-size:14px;color:var(--brand)}
+.empty{color:var(--muted);text-align:center;padding:26px 10px 30px;font-size:15px}
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-state .sq{width:64px;height:64px;border-radius:18px;margin-bottom:8px;opacity:.9}
+.empty-state .sq svg{width:32px;height:32px}
+.empty-state b{font-size:20px;font-weight:600;color:var(--text);letter-spacing:-.02em}
+.empty-state p{margin:0 0 14px;font-size:15px}
+
+/* ---------- busca ---------- */
+.search{position:relative;margin-bottom:6px}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted);pointer-events:none}
+.search input{padding-left:38px!important;border-radius:12px!important;background:var(--fill)!important;min-height:42px}
+
+/* ---------- campos ---------- */
+input[type=text],input[type=tel],input[type=email],input[type=number],input[type=password],input[type=search],textarea{
+  width:100%;padding:10px 13px;min-height:44px;border-radius:12px;border:0;background:var(--fill);color:var(--text);font-weight:400;font-size:16px;outline:none;
+  transition:box-shadow .15s ease,background-color .15s ease}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
+input:focus,textarea:focus{background:var(--card);box-shadow:0 0 0 1.5px var(--brand),0 0 0 5px var(--brand-soft)}
+textarea{min-height:86px;resize:vertical;line-height:1.45}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);font-weight:500;min-width:0}
+
+/* controles próprios (menu, data, hora): o nativo fica invisível por baixo */
+.ctl{position:relative;display:block;width:100%}
+.ctl-native{position:absolute!important;inset:0;width:100%!important;height:100%!important;opacity:0!important;pointer-events:none!important;margin:0!important;z-index:0}
+.ctl-btn{position:relative;z-index:1;display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:10px 12px 10px 13px;border:0;border-radius:12px;background:var(--fill);color:var(--text);font-size:16px;font-weight:400;text-align:left;
+  transition:background-color .15s ease,box-shadow .15s ease,transform .12s var(--ease-out)}
+.ctl-btn .cv{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctl-btn .cv.ph{color:var(--muted)}
+.ctl-btn .ci{color:var(--muted);display:inline-flex}
+.ctl-btn .ci svg{width:16px;height:16px}
+.ctl-date .ctl-btn .ci,.ctl-time .ctl-btn .ci{color:var(--brand)}
+.ctl-btn:active{transform:scale(.99)}
+.ctl-btn.open{background:var(--card);box-shadow:0 0 0 1.5px var(--brand),0 0 0 5px var(--brand-soft)}
+.ctl-select .ctl-btn .ci{order:2}
+
+/* escala 0–10 */
+.scale{position:relative}
+.scale-row{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--fill)}
+.sc{height:36px;border:0;border-radius:9px;background:transparent;font-weight:600;font-size:14px;color:var(--text-2);font-variant-numeric:tabular-nums;transition:background-color .15s,color .15s,transform .12s var(--ease-out)}
+.sc:active{transform:scale(.9)}
+.sc.on{color:#fff;background:hsl(calc(130 - var(--k) * 130) 70% 46%);box-shadow:0 2px 6px rgba(0,0,0,.15)}
+
+/* ---------- formulário de anamnese: seções agrupadas ---------- */
+.aform fieldset{border:0;margin:0 0 18px;padding:18px 20px 20px;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);min-width:0}
+.aform legend{float:left;width:100%;display:flex;align-items:center;gap:11px;padding:0 0 16px;font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.aform legend+*{clear:both}
+.aform .grid{display:grid;gap:14px 18px}
+.aform .grid+.grid,.aform .checks+.grid,.aform .hint+.checks{margin-top:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:999px;cursor:pointer;background:var(--fill);font-size:14.5px;font-weight:500;color:var(--text-2);
+  transition:background-color .15s ease,color .15s ease,transform .12s var(--ease-out)}
+.check:active{transform:scale(.96)}
+.check input{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:0;border-radius:50%;border:1.5px solid var(--muted);flex-shrink:0;display:grid;place-items:center;transition:background-color .15s,border-color .15s}
+.check input::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:0;transition:opacity .12s}
+.check:has(input:checked){background:var(--brand);color:var(--on-brand)}
+.check input:checked{background:rgba(255,255,255,.28);border-color:transparent}
+.check input:checked::after{opacity:1;border-color:var(--on-brand)}
+.consent{display:flex;align-items:center;gap:14px;font-size:15px;cursor:pointer}
+.consent small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:999px;background:var(--fill-2);position:relative;flex-shrink:0;margin:0;cursor:pointer;transition:background-color .25s var(--ease-out)}
+.switch::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .25s var(--ease-out)}
+.switch:checked{background:#34c759}
+.switch:checked::before{transform:translateX(20px)}
+.switch:active::before{width:31px}.switch:checked:active::before{transform:translateX(16px)}
+.formbar{position:sticky;bottom:12px;margin:8px auto 0;padding:8px;display:flex;gap:8px;justify-content:flex-end;z-index:5;width:max-content;max-width:100%;margin-left:auto;margin-right:0;
+  background:var(--material-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);border-radius:999px;box-shadow:var(--shadow-lg)}
+
+/* ---------- ficha (estilo Contatos) ---------- */
+.contact{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;margin:0 0 22px}
+.contact .avatar{margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.35)}
+.contact h1{font-size:30px}
+.contact .sub{margin:2px 0 6px}
+.capsule{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--ok-soft);color:var(--ok);font-size:13.5px;font-weight:600}
+.capsule svg{width:14px;height:14px}
+.qactions{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.qa{display:flex;flex-direction:column;align-items:center;gap:4px;width:84px;padding:11px 4px 9px;border:0;border-radius:14px;background:var(--card);color:var(--brand);text-decoration:none;
+  font-size:12px;font-weight:500;box-shadow:var(--shadow);transition:transform .12s var(--ease-out),background-color .15s}
+.qa svg{width:22px;height:22px}
+.qa:active{transform:scale(.94);background:var(--fill-3)}
+.tabs-wrap{display:flex;justify-content:center;margin-bottom:20px}
+.tabs{display:inline-flex;gap:2px;padding:2px;border-radius:10px;background:var(--fill);overflow-x:auto;scrollbar-width:none;max-width:100%}
+.tabs::-webkit-scrollbar{display:none}
+.tab{min-width:120px;padding:6px 18px;border:0;border-radius:8px;background:none;font-weight:500;font-size:14px;color:var(--text);white-space:nowrap;
+  transition:background-color .2s var(--ease-out),box-shadow .2s var(--ease-out)}
+.tab.active{background:var(--card);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 .5px 1px rgba(0,0,0,.08)}
+[data-theme="dark"] .tab.active{background:#636366}
+@media (prefers-color-scheme:dark){[data-theme="auto"] .tab.active{background:#636366}}
+.alertcard{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--r);background:var(--danger-soft);margin-bottom:16px}
+.alertcard b{display:block;color:var(--danger);font-size:15px}
+.alertcard span{display:block;color:var(--text);font-size:14.5px;white-space:pre-wrap}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.metric{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:12px 14px;border-radius:var(--r);background:var(--card);box-shadow:var(--shadow)}
+.metric .sq{grid-row:1/3;width:32px;height:32px}
+.metric span{font-size:12.5px;color:var(--muted);font-weight:500}
+.metric b{font-size:20px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric b small{font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
+.gsecs{columns:2 380px;column-gap:18px}
+.gsec{break-inside:avoid;margin-bottom:18px;display:inline-block;width:100%}
+.gsec-h{display:flex;align-items:center;gap:10px;margin:0 0 8px 4px;font-size:16px;font-weight:600;letter-spacing:-.015em}
+.gsec-h .sq{width:24px;height:24px;border-radius:6px}.gsec-h .sq svg{width:14px;height:14px}
+.group .kv{margin:0;display:grid;grid-template-columns:minmax(110px,38%) 1fr}
+.group .kv dt,.group .kv dd{padding:11px 16px;border-top:.5px solid var(--line);margin:0}
+.group .kv dt{color:var(--muted);font-size:14px;font-weight:500;padding-right:8px}
+.group .kv dd{white-space:pre-wrap;word-break:break-word;font-size:15px;padding-left:0}
+.group .kv dt:first-of-type,.group .kv dd:first-of-type{border-top:0}
+.tags.pad+.kv dt:first-of-type,.tags.pad+.kv dd:first-of-type{border-top:.5px solid var(--line)}
+.consent-st{padding:13px 16px;color:var(--muted);font-size:15px;display:flex;align-items:center;gap:8px}
+.consent-st.ok{color:var(--ok);font-weight:600}.consent-st svg{width:16px;height:16px}
+.danger-zone{margin-top:8px}
+.row-btn{display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:10px 16px;border:0;background:none;color:var(--text);font-size:16px;text-align:left;position:relative;transition:background-color .12s}
+.row-btn+.row-btn::before,.row-btn+.srow::before,.srow+.row-btn::before,.srow+.srow::before{content:"";position:absolute;left:58px;right:0;top:0;height:.5px;background:var(--line)}
+.row-btn>span:not(.rv):not(.chev){flex:1}
+.row-btn>svg{width:20px;height:20px}
+.row-btn.danger{color:var(--danger);justify-content:center}
+.row-btn.danger>span{flex:0 1 auto!important}
+.row-btn:active{background:var(--fill)}
+@media (hover:hover) and (pointer:fine){.row-btn:hover{background:var(--fill-3)}}
+.rv{color:var(--muted);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.rv.warn{color:var(--brand);font-weight:500}
+.cons-h{margin-bottom:12px}
+
+/* ---------- linhas de ajustes e formulários em grupo ---------- */
+.srow{display:flex;align-items:center;gap:12px;min-height:50px;padding:8px 16px;position:relative;cursor:pointer;font-size:16px}
+.srow.static{cursor:default}
+.srow .sl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .sin{width:auto;max-width:58%;min-height:34px;padding:4px 0;background:transparent!important;box-shadow:none!important;text-align:right;color:var(--muted);border-radius:0}
+.srow .sin:focus{color:var(--text)}
+.srow .ctl.inline{width:auto;max-width:62%}
+.srow .ctl-btn.right{background:transparent;min-height:34px;padding:4px 0;color:var(--muted);justify-content:flex-end;gap:6px}
+.srow .ctl-btn.right .cv{text-align:right}
+.srow .ctl-btn.right.open{box-shadow:none;color:var(--brand)}
+.srow .ctl-date .ctl-btn.right,.srow .ctl-time .ctl-btn.right{background:var(--fill);padding:5px 11px;border-radius:8px;color:var(--text);font-variant-numeric:tabular-nums}
+.srow .ctl-date .ctl-btn.right .ci,.srow .ctl-time .ctl-btn.right .ci{display:none}
+.srow:active:not(.static){background:var(--fill-3)}
+.group.form .fin{display:block;width:100%;border-radius:0;background:transparent!important;box-shadow:none!important;padding:13px 16px;min-height:48px}
+.group.form .fin+.fin{border-top:.5px solid var(--line)}
+.group.pad .fin{background:var(--fill)!important;border-radius:12px;margin:12px 0}
+.settings{max-width:680px;margin:0 auto}
+.profile{display:flex;align-items:center;gap:16px;padding:18px;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.profile .avatar.xl{width:64px;height:64px;font-size:26px}
+.profile b{display:block;font-size:19px;font-weight:600;letter-spacing:-.02em;word-break:break-all}
+.profile div>span{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:14px;margin-top:2px}
+.profile span svg{width:14px;height:14px}
+.gfoot{display:flex;justify-content:flex-end;margin-top:10px}
+.gnote{color:var(--muted);font-size:13px;margin:8px 18px 0;line-height:1.4}
+.version{text-align:center;color:var(--muted);font-size:13px;margin:34px 0 0}
+.bubble-wrap{margin:4px 0 14px}
+.bubble-out{margin-top:6px;margin-left:auto;max-width:86%;width:fit-content;padding:10px 14px;border-radius:20px 20px 6px 20px;background:#34c759;color:#fff;font-size:15px;line-height:1.4;white-space:pre-wrap;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.prow-i{display:flex;gap:12px;padding:12px 16px;position:relative}
+.prow-i+.prow-i::before{content:"";position:absolute;left:58px;right:0;top:0;height:.5px;background:var(--line)}
+.prow-i b{display:block;font-size:15px;font-weight:600}
+.prow-i span{display:block;color:var(--muted);font-size:14px;line-height:1.4}
+
+/* ---------- agenda (estilo Calendário) ---------- */
+.agenda{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+.calcard{background:var(--card);border-radius:var(--r-xl);padding:20px 18px 16px;box-shadow:var(--shadow);position:sticky;top:20px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin:0 4px 14px}
+.calhead b{font-size:24px;font-weight:700;letter-spacing:-.025em;text-transform:capitalize}
+.calhead b span{color:var(--danger)}
+.calnav{display:flex;align-items:center;gap:6px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px 4px}
+.cal .dow{text-align:center;font-size:11.5px;color:var(--muted);font-weight:600;padding:2px 0 8px;letter-spacing:.04em}
+.cal .day{aspect-ratio:1/1;min-height:40px;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;position:relative;border-radius:14px;transition:background-color .12s}
+.cal .day .dn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums;transition:background-color .15s,color .15s,transform .12s var(--ease-out)}
+.cal .day:active .dn{transform:scale(.9)}
+@media (hover:hover) and (pointer:fine){.cal .day:hover .dn{background:var(--fill)}}
+.cal .day.out{opacity:.3}
+.cal .day.today .dn{color:var(--danger);font-weight:700}
+.cal .day.sel .dn{background:var(--text);color:var(--bg);font-weight:700}
+.cal .day.today.sel .dn{background:var(--danger);color:#fff}
+.cal .dots{display:flex;gap:2px;height:5px}
+.cal .dots i{width:5px;height:5px;border-radius:50%;background:var(--muted)}
+.daycol{min-width:0}
+.dayhead{display:flex;align-items:center;gap:14px;margin:4px 4px 14px}
+.dh-num{font-size:44px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.dh-num.today{color:var(--danger)}
+.dayhead b{display:block;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.dayhead span:not(.dh-num){display:block;color:var(--muted);font-size:14.5px;text-transform:capitalize}
+.dayhead .ib{margin-left:auto}
+.daycol .sec{margin-top:24px}
+
+/* ---------- diálogos = sheets ---------- */
+dialog{border:0;border-radius:var(--r-xl);padding:0;background:var(--bg);color:var(--text);width:min(560px,94vw);max-height:90vh;box-shadow:var(--shadow-lg);
+  overscroll-behavior:contain;opacity:1;transform:none;transition:opacity .25s var(--ease-out),transform .32s var(--ease-out)}
+dialog[open]{@starting-style{opacity:0;transform:translateY(12px) scale(.97)}}
+dialog::backdrop{background:rgba(0,0,0,.3);transition:background-color .3s ease}
+dialog[open]::backdrop{@starting-style{background:rgba(0,0,0,0)}}
+.grab{display:none}
+.dlg{padding:20px;display:flex;flex-direction:column;gap:14px}
+.dlg>h2{font-size:22px;letter-spacing:-.022em}
+.dlg .bar{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.dlg label.f input,.dlg label.f textarea{background:var(--card)}
+.shead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin:-6px -6px 2px}
+.shead h2{font-size:17px;font-weight:600;letter-spacing:-.015em;text-align:center}
+.shead .nb-btn:first-child{justify-self:start;margin:0}
+.shead .nb-btn:last-child{justify-self:end;margin:0}
+.dlg .group{flex-shrink:0}
+@media (max-width:820px){
+  dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:94vh;transition:transform .5s var(--ease-drawer)}
+  dialog[open]{@starting-style{transform:translateY(100%);opacity:1}}
+  .dlg{padding:6px 16px calc(20px + env(safe-area-inset-bottom))}
+  .grab{height:22px;margin:0 -16px -4px;display:flex;justify-content:center;align-items:center;touch-action:none;cursor:grab;flex-shrink:0}
+  .grab::before{content:"";width:36px;height:5px;border-radius:3px;background:var(--fill-2)}
+  .dlg>h2,.shead{touch-action:none}
+  .dlg .bar{flex-direction:column-reverse}.dlg .bar .btn{width:100%;min-height:50px;font-size:17px}
+}
+
+/* ---------- popovers: menus, calendário, hora ---------- */
+.pop{position:fixed;inset:auto;margin:0;border:0;padding:0;background:transparent;color:var(--text);overflow:visible;
+  opacity:1;transform:none;transition:opacity .16s var(--ease-out),transform .2s var(--ease-out)}
+.pop:popover-open{@starting-style{opacity:0;transform:scale(.94)}}
+.pop>*{background:var(--material-pop);-webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);border-radius:16px;
+  box-shadow:0 18px 50px rgba(0,0,0,.18),0 2px 8px rgba(0,0,0,.08),inset 0 0 0 .5px var(--material-edge);overflow:hidden}
+.menu{display:flex;flex-direction:column;padding:6px;max-height:min(360px,60vh);overflow-y:auto;overscroll-behavior:contain}
+.mi{display:flex;align-items:center;gap:6px;width:100%;padding:9px 12px 9px 8px;border:0;border-radius:10px;background:none;color:var(--text);font-size:15.5px;text-align:left;transition:background-color .1s}
+.mi-ck{width:18px;display:inline-flex;color:var(--brand);visibility:hidden}
+.mi-ck svg{width:15px;height:15px}
+.mi.on .mi-ck{visibility:visible}
+.mi.on{font-weight:600}
+.mi:hover,.mi:focus{background:var(--brand);color:var(--on-brand)}
+.mi:hover .mi-ck,.mi:focus .mi-ck{color:inherit}
+.mi:disabled{opacity:.4}
+.dp{width:304px;padding:12px}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px}
+.dp-title{display:inline-flex;align-items:center;gap:4px;border:0;background:none;font-size:16px;font-weight:600;color:var(--text);padding:4px 6px;margin-left:-6px;border-radius:8px;text-transform:capitalize}
+.dp-title svg{width:14px;height:14px;color:var(--brand);transition:transform .2s var(--ease-out)}
+.dp-title.on{color:var(--brand)}.dp-title.on svg{transform:rotate(90deg)}
+.dp-nav{display:flex;gap:4px}
+.dp-nav .ib{width:30px;height:30px;background:none}
+.dp-dow{display:grid;grid-template-columns:repeat(7,1fr);font-size:11px;font-weight:600;color:var(--muted);text-align:center;margin-bottom:4px}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-d{aspect-ratio:1;border:0;border-radius:50%;background:none;font-size:15.5px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums;transition:background-color .1s,transform .1s var(--ease-out)}
+.dp-d:hover{background:var(--fill)}
+.dp-d:active{transform:scale(.9)}
+.dp-d.today{color:var(--danger);font-weight:700}
+.dp-d.sel{background:var(--danger);color:#fff;font-weight:700}
+.dp-d:disabled{opacity:.25;cursor:default}
+.dp-years{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-height:252px;overflow-y:auto;overscroll-behavior:contain}
+.dp-months{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.dp-y,.dp-m{padding:10px 0;border:0;border-radius:10px;background:var(--fill-3);font-size:15px;font-weight:500;color:var(--text);text-transform:capitalize;font-variant-numeric:tabular-nums}
+.dp-y:hover,.dp-m:hover{background:var(--fill)}
+.dp-y.sel,.dp-m.sel{background:var(--brand);color:var(--on-brand);font-weight:600}
+.dp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:6px 4px 0;border-top:.5px solid var(--line)}
+.tp{width:220px;padding:10px}
+.tp-cols{display:flex;align-items:center;gap:4px}
+.tp-col{flex:1;height:196px;overflow-y:auto;scroll-snap-type:y mandatory;display:flex;flex-direction:column;gap:2px;padding:80px 0;overscroll-behavior:contain;scrollbar-width:none;
+  -webkit-mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.tp-col::-webkit-scrollbar{display:none}
+.tp-i{scroll-snap-align:center;border:0;background:none;padding:6px 0;border-radius:8px;font-size:20px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums;flex-shrink:0}
+.tp-i.sel{background:var(--fill);font-weight:700}
+.tp-sep{font-size:20px;font-weight:700}
+.tp-val{font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- aviso ---------- */
+#toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translate(-50%,-14px) scale(.96);opacity:0;pointer-events:none;z-index:2147483646;max-width:90vw;
+  padding:11px 18px;border-radius:999px;font-weight:600;font-size:14.5px;color:var(--text);
+  background:var(--material-strong);-webkit-backdrop-filter:blur(40px) saturate(180%);backdrop-filter:blur(40px) saturate(180%);
+  box-shadow:0 12px 34px rgba(0,0,0,.16),inset 0 0 0 .5px var(--material-edge);transition:opacity .25s var(--ease-out),transform .35s var(--ease-out)}
+#toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+/* ---------- entrada / bloqueio ---------- */
+.lock{position:fixed;inset:0;display:grid;place-items:center;z-index:100;padding:20px;overflow:auto;
+  background:radial-gradient(60% 50% at 15% 10%,rgba(122,53,240,.22),transparent 70%),radial-gradient(50% 45% at 90% 90%,rgba(88,86,214,.18),transparent 70%),var(--bg)}
+.lock .card{width:min(380px,100%);display:flex;flex-direction:column;gap:14px;padding:30px 28px 26px;border-radius:var(--r-xl);
+  background:var(--material-strong);-webkit-backdrop-filter:blur(40px) saturate(180%);backdrop-filter:blur(40px) saturate(180%);box-shadow:var(--shadow-lg)}
+.lock .logo{width:76px;height:76px;margin:0 auto 6px;border-radius:23%}
+.lock .logo svg{width:38px;height:38px}
+.authcard{width:min(420px,100%)!important;max-height:calc(100vh - 40px);overflow:auto}
+.authcard h2{margin:0;text-align:center;font-size:28px;font-weight:700;letter-spacing:-.028em}
+.authcard>.muted,.authcard>p.muted{text-align:center;font-size:15px}
+.authcard form{display:flex;flex-direction:column;gap:12px}
+.authcard label.f{font-size:13px}
+.authcard input{background:var(--fill)!important}
+.authcard input:focus{background:var(--card)!important}
+.authcard .btn.primary{min-height:50px;font-size:17px;border-radius:14px;width:100%}
+.authcard label.check{background:none!important;padding:2px 0;font-size:14px;color:var(--muted);align-items:flex-start;border-radius:0;font-weight:400}
+.authcard label.check input{margin-top:1px;border-radius:6px}
+.authcard label.check:has(input:checked){color:var(--muted)}
+.authcard label.check input:checked{background:var(--brand)}
+.pwrow{display:flex;gap:6px}.pwrow input{flex:1;min-width:0}.pwrow .btn{border-radius:12px}
+.autherr{color:var(--danger);min-height:20px;font-weight:500;font-size:14px;text-align:center}
+.authlinks{text-align:center;font-size:15px}
+.authlinks a{color:var(--brand);cursor:pointer;font-weight:500;text-decoration:none}
+.reckey{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:18px;letter-spacing:1px;background:var(--fill);color:var(--text);padding:16px;border-radius:14px;
+  text-align:center;word-break:break-all;-webkit-user-select:all;user-select:all}
+.qrbox{width:200px;max-width:70%;margin:0 auto;background:#fff;padding:10px;border-radius:16px;box-shadow:var(--shadow-md)}
+.qrbox svg{width:100%;height:auto}
+
+/* ---------- sincronização / modo ---------- */
+.syncrow{display:flex;margin:0 2px 8px}
+.syncrow #syncPill{width:100%;justify-content:flex-start;box-shadow:none;background:var(--fill-3);-webkit-backdrop-filter:none;backdrop-filter:none}
+#syncPill{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 13px;border-radius:999px;font-size:12.5px;font-weight:600;border:0;cursor:pointer;
+  background:var(--material-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:0 6px 20px rgba(0,0,0,.1),inset 0 0 0 .5px var(--material-edge);
+  color:var(--muted);transition:transform .12s var(--ease-out),background-color .15s ease}
+#syncPill:active{transform:scale(.95)}
+#syncPill i{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+#syncPill.ok i{background:var(--ok)}#syncPill.warn i{background:var(--warn)}#syncPill.bad i{background:var(--danger)}
+#syncPill.bad{color:var(--danger);background:var(--danger-soft)}
+#modeBanner{background:var(--danger);color:#fff;text-align:center;font-weight:600;font-size:13px;padding:7px 12px;position:sticky;top:0;z-index:40}
+.plist{margin:0;padding-left:18px}
+
+/* ---------- ficha impressa ---------- */
+#printArea{display:none}
+.sheet{color:#111;font-size:12.5px;line-height:1.45;font-family:-apple-system,BlinkMacSystemFont,system-ui,"Segoe UI",Roboto,sans-serif;letter-spacing:0}
+.sheet h1{font-size:20px;border-bottom:2px solid #6521DB;padding-bottom:6px;margin:0 0 10px;color:#111;letter-spacing:-.01em}
+.sheet h3{font-size:12px;margin:14px 0 4px;color:#6521DB;text-transform:uppercase;letter-spacing:.06em}
+.sheet table{width:100%;border-collapse:collapse}
+.sheet td{padding:3px 6px;border-bottom:1px solid #ddd;vertical-align:top}
+.sheet td:first-child{width:28%;color:#555;font-weight:600}
+.sheet .cab{display:flex;justify-content:space-between;color:#555;font-size:11px;margin-bottom:8px}
+.sheet .sign{margin-top:46px;display:flex;justify-content:center}
+.sheet .sign div{border-top:1px solid #000;width:260px;text-align:center;padding-top:4px}
+#preview{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:flex;flex-direction:column}
+.pvbar{display:flex;align-items:center;gap:8px;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top));flex-wrap:wrap;
+  background:var(--material);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);border-bottom:.5px solid var(--line)}
+.pvbar .grow{flex:1}
+.pvbody{flex:1;overflow:auto;padding:24px 10px;display:flex;justify-content:center;align-items:flex-start;overscroll-behavior:contain}
+.paper{background:#fff;width:210mm;max-width:100%;min-height:297mm;padding:16mm 14mm;border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+
+/* ---------- celular ---------- */
+@media (max-width:1000px){.agenda{grid-template-columns:1fr}.calcard{position:static}}
+@media (max-width:820px){
+  .side{display:none}
+  main{padding:calc(10px + env(safe-area-inset-top)) 16px calc(104px + env(safe-area-inset-bottom))}
+  .bottom{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;padding:6px 8px calc(4px + env(safe-area-inset-bottom));
+    background:var(--material);-webkit-backdrop-filter:blur(40px) saturate(180%);backdrop-filter:blur(40px) saturate(180%);border-top:.5px solid var(--line)}
+  .bottom .nav{flex-direction:column;gap:3px;font-size:10.5px;font-weight:500;letter-spacing:.01em;padding:5px 2px;justify-content:center;align-items:center;text-align:center;color:var(--muted);background:none!important}
+  .bottom .nav svg{width:25px;height:25px;color:inherit}
+  .bottom .nav.active{color:var(--brand);font-weight:600}
+  h1{font-size:32px}
+  .ptitle{margin:30px 0 18px}
+  .ptitle .actions{width:100%}
+  .ptitle .actions .btn{flex:1}
+  .pt-form .actions{display:none}
+  .hero{flex-direction:column;align-items:stretch;padding:20px}
+  .hero-t{font-size:46px}
+  .hero-who b,.hero-who small{max-width:none}
+  .hero-r{width:100%}.hero-who{flex:1}
+  .widgets{gap:10px}
+  .wdg{grid-template-columns:1fr;grid-template-rows:auto auto auto;padding:12px;row-gap:6px}
+  .wdg .sq{grid-row:auto;width:32px;height:32px}.wdg b{font-size:24px}.wdg span{font-size:12px;line-height:1.25}
+  .dash{grid-template-columns:1fr;gap:12px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .aform .g4,.aform .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .aform fieldset{padding:16px}
+  .formbar{bottom:calc(76px + env(safe-area-inset-bottom));width:100%;border-radius:20px}
+  .formbar .btn{flex:1;min-height:46px}
+  .qactions{gap:8px}.qa{width:auto;flex:1;min-width:64px;max-width:90px}
+  .gsecs{columns:1}
+  .group .kv{grid-template-columns:1fr}
+  .group .kv dd{padding:0 16px 11px;border-top:0}
+  .group .kv dt{padding-bottom:2px}
+  .tab{min-width:0;flex:1}.tabs{display:flex;width:100%}
+  .navbar{margin-top:0}
+  .syncrow{position:static;display:flex;justify-content:flex-end;margin:0 0 -4px}
+  #syncPill{box-shadow:none;background:var(--fill);height:26px}
+  #toast{top:calc(10px + env(safe-area-inset-top))}
+}
+@media (max-width:420px){
+  .cal .day{min-height:0}.cal .day .dn{width:34px;height:34px;font-size:16px}.cal{gap:0 2px}
+  .calcard{padding:16px 10px 12px}
+  .widgets{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .aform .g4,.aform .g3{grid-template-columns:1fr}
+  .scale-row{gap:2px;padding:3px}.sc{height:34px;font-size:13px}
+}
+
+/* ---------- acessibilidade ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
+  dialog,#toast,.pop{transition:opacity .2s ease!important}
+  dialog[open]{@starting-style{transform:none;opacity:0}}
+  .pop:popover-open{@starting-style{transform:none;opacity:0}}
+  #toast,#toast.show{transform:translate(-50%,0)!important}
+}
+@media (prefers-reduced-transparency:reduce){
+  .side,.bottom,.formbar,.pvbar,#toast,.pop>*,.lock .card,.hero-r{background:var(--card)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .hero-r{background:rgba(0,0,0,.18)!important}
+}
+@media (prefers-contrast:more){
+  :root{--line:rgba(60,60,67,.5);--muted:#48484a}
+  .group,.panel,.wdg,.aform fieldset,.btn,.ctl-btn,input,textarea,.check,.qa,.metric{box-shadow:0 0 0 1px var(--line)}
+}
+@media print{
+  @page{margin:14mm}
+  body{background:#fff}
+  .app,.bottom,dialog,#toast,.lock,#preview,#modeBanner,.pop{display:none!important}
+  #printArea{display:block}
+}
+</style>
+</head>
+<body>
+
+<div id="modeBanner" class="hidden"></div>
+<div id="auth" class="lock"><div class="card authcard" id="authBox"></div></div>
+
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <main id="main"></main>
+</div>
+<nav class="bottom" id="bottom"></nav>
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+<div id="printArea" class="sheet"></div>
+<div id="preview" class="hidden"></div>
+
+<script src="config.js"></script>
+<script src="qrcode.js"></script>
+<script src="vault.js"></script>
+<script src="account.js"></script>
+<script src="ui.js"></script>
+<script src="ui-controls.js"></script>
+<script>
+/* ============ utilidades ============ */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad = n => String(n).padStart(2, '0');
+const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const addDays = (str, n) => { const d = new Date(str + 'T12:00:00'); d.setDate(d.getDate() + n); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const fmtDate = s => s ? s.split('-').reverse().join('/') : '';
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const DIAS = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+const longDate = s => { const d = new Date(s + 'T12:00:00'); return `${DIAS[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]}`; };
+const digits = s => String(s || '').replace(/\D/g, '');
+const initials = n => (n || '?').trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase();
+
+function idade(nasc) {
+  if (!nasc) return '';
+  const n = new Date(nasc + 'T12:00:00'), h = new Date();
+  let a = h.getFullYear() - n.getFullYear();
+  let m = h.getMonth() - n.getMonth();
+  if (m < 0 || (m === 0 && h.getDate() < n.getDate())) { a--; m += 12; }
+  if (h.getDate() < n.getDate()) m = (m + 11) % 12;
+  if (a < 0) return '';
+  return a < 2 ? `${a * 12 + m} meses` : `${a} anos`;
+}
+
+const _i = (d, w = 2) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const ICON = {
+  home: _i('<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'),
+  users: _i('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>'),
+  cal: _i('<rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
+  calPlus: _i('<rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18M12 13v6M9 16h6"/>'),
+  cog: _i('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
+  plus: _i('<path d="M12 5v14M5 12h14"/>', 2.4),
+  search: _i('<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'),
+  heart: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
+  chevR: _i('<path d="m9 6 6 6-6 6"/>', 2.4),
+  chevL: _i('<path d="m15 6-6 6 6 6"/>', 2.6),
+  clock: _i('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+  phone: _i('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>'),
+  msg: _i('<path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/>'),
+  printer: _i('<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/>'),
+  share: _i('<path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14"/>'),
+  pencil: _i('<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
+  trash: _i('<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>'),
+  warn: _i('<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/>'),
+  check: _i('<path d="M20 6 9 17l-5-5"/>', 2.6),
+  person: _i('<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>'),
+  doc: _i('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>'),
+  pulse: _i('<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'),
+  pill: _i('<path d="m10.5 20.5 10-10a4.9 4.9 0 0 0-7-7l-10 10a4.9 4.9 0 0 0 7 7zM8.5 8.5l7 7"/>'),
+  family: _i('<circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="12" cy="13" r="2"/><path d="M3 21v-4a4 4 0 0 1 8 0M13 21v-4a4 4 0 0 1 8 0"/>'),
+  flower: _i('<circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 0 1 0 7 4 4 0 0 1 0-7zM12 15a4 4 0 0 1 0 7 4 4 0 0 1 0-7zM2 12a4 4 0 0 1 7 0 4 4 0 0 1-7 0zM15 12a4 4 0 0 1 7 0 4 4 0 0 1-7 0z"/>'),
+  bolt: _i('<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>'),
+  flask: _i('<path d="M9 2h6M10 2v6L4 19a2 2 0 0 0 1.8 3h12.4A2 2 0 0 0 20 19L14 8V2M7 15h10"/>'),
+  target: _i('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'),
+  shield: _i('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'),
+  leaf: _i('<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.2-6"/>'),
+  ruler: _i('<path d="M21.3 15.3 8.7 2.7a1 1 0 0 0-1.4 0L2.7 7.3a1 1 0 0 0 0 1.4l12.6 12.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4zM7.5 10.5l2-2M10.5 13.5l2-2M13.5 16.5l2-2"/>'),
+  lock: _i('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'),
+  key: _i('<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M17 6l3 3M14 9l2 2"/>'),
+  sync: _i('<path d="M21 12a9 9 0 0 1-15.5 6.3L3 16M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M3 21v-5h5"/>'),
+  logout: _i('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>'),
+  timer: _i('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M10 2h4"/>'),
+  globe: _i('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/>'),
+  idcard: _i('<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4M5 16a3 3 0 0 1 6 0"/>'),
+  moon: _i('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'),
+  building: _i('<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/>'),
+  download: _i('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>'),
+  upload: _i('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>'),
+  table: _i('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>'),
+  cake: _i('<path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/>'),
+  sparkle: _i('<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17l.7 1.8 1.8.7-1.8.7L19 22l-.7-1.8-1.8-.7 1.8-.7z"/>'),
+  bubble: _i('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+  hand: _i('<path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/>')
+};
+const KMARK = '<svg viewBox="0 0 256 256" width="62%" height="62%" fill="currentColor" aria-hidden="true"><path d="M28 40H72V216H28Z"/><path d="M178 40H226L138 128L226 216H178L90 128Z"/></svg>';
+const C = { red: '#ff3b30', orange: '#ff9500', yellow: '#ffcc00', green: '#34c759', mint: '#00c7be', teal: '#30b0c7', cyan: '#32ade6', blue: '#007aff', indigo: '#5856d6', purple: '#af52de', pink: '#ff2d55', gray: '#8e8e93', brown: '#a2845e' };
+const sq = (ic, c) => `<i class="sq" style="--c:${c}">${ICON[ic]}</i>`;
+const hue = s => { let h = 0; for (const ch of String(s || '?')) h = (h * 31 + ch.codePointAt(0)) % 360; return h; };
+const av = n => `style="--h:${hue(n)}"`;
+const MES3 = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const fmtShort = s => { const [y, m, d] = s.split('-'); return `${+d} ${MES3[+m - 1]}`; };
+const nowKey = () => { const d = new Date(); return todayStr() + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+function ptitle(title, { eyebrow = '', sub = '', actions = '', cls = '' } = {}) {
+  return `<header class="ptitle ${cls}"><div class="pt-text">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}<h1>${title}</h1>${sub ? `<p class="sub">${sub}</p>` : ''}</div>${actions ? `<div class="actions">${actions}</div>` : ''}</header>`;
+}
+const emptyState = (ic, title, text, action = '') => `<div class="empty-state">${sq(ic, C.gray)}<b>${title}</b><p>${text}</p>${action}</div>`;
+
+/* ============ dados ============ */
+const MSG_PADRAO = 'Olá, {nome}! Passando para lembrar da sua consulta marcada para {diasemana}, {data}, às {hora}. Se não puder comparecer, me avise com antecedência, por favor. Até lá!';
+const DEFAULTS = () => ({ patients: [], appointments: [], settings: { profissional: '', clinica: '', tema: 'auto', pais: '33', mostrarCpf: false, msgLembrete: '' } });
+/* monta a mensagem de lembrete a partir do modelo salvo nos Ajustes */
+function lembreteMsg(a, modelo) {
+  const p = patientById(a.patientId) || { nome: '' };
+  const d = new Date(a.data + 'T12:00:00');
+  const vars = {
+    nome: (p.nome || '').split(' ')[0], nome_completo: p.nome || '',
+    data: fmtDate(a.data), hora: a.hora || '', diasemana: DIAS[d.getDay()] || '',
+    profissional: db.settings.profissional || '', clinica: db.settings.clinica || '', tipo: (a.tipo || 'consulta').toLowerCase()
+  };
+  const tpl = (modelo ?? db.settings.msgLembrete) || MSG_PADRAO;
+  return tpl.replace(/\{(\w+)\}/g, (m, k) => k in vars ? vars[k] : m).replace(/[ \t]{2,}/g, ' ').replace(/ ([,.!?])/g, '$1').trim();
+}
+const PAISES = [['33', 'França (+33)'], ['55', 'Brasil (+55)'], ['351', 'Portugal (+351)'], ['32', 'Bélgica (+32)'], ['41', 'Suíça (+41)'], ['34', 'Espanha (+34)'], ['39', 'Itália (+39)'], ['49', 'Alemanha (+49)'], ['44', 'Reino Unido (+44)'], ['1', 'EUA / Canadá (+1)']];
+/* número no formato do WhatsApp (só dígitos, com código do país) */
+// Abre a conversa direto no aplicativo do WhatsApp (sem passar pela página api.whatsapp.com)
+async function openWhatsApp(num, text) {
+  const q = `phone=${num}` + (text ? `&text=${encodeURIComponent(text)}` : '');
+  if (window.electronAPI && window.electronAPI.openWhatsApp) {           // Windows: app instalado → abre o app; senão WhatsApp Web
+    const r = await window.electronAPI.openWhatsApp(q);
+    if (r === 'web') toast('WhatsApp não está instalado neste PC — abrindo o WhatsApp Web');
+    return;
+  }
+  if (window.Capacitor) { location.href = `whatsapp://send?${q}`; return; }  // Android: abre o app direto
+  window.open(`https://wa.me/${num}` + (text ? `?text=${encodeURIComponent(text)}` : ''), '_blank', 'noopener');
+}
+function waNumber(tel) {
+  const raw = String(tel || '').trim(), d = digits(raw);
+  if (!d) return '';
+  if (raw.startsWith('+')) return d;          // já veio com código do país
+  if (d.startsWith('00')) return d.slice(2);  // 0033... / 0055...
+  return (db.settings.pais || '33') + d.replace(/^0+/, ''); // 06 12 34 56 78 -> 33 6 12 34 56 78
+}
+/* Os dados ficam só em memória (decifrados). O cofre (vault.js) cifra cada ficha e sincroniza com o servidor. */
+let db = DEFAULTS();
+function saveDB() { Vault.commit(db); }
+const patientById = id => db.patients.find(p => p.id === id);
+const apptKey = a => a.data + 'T' + (a.hora || '00:00');
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function applyTheme() { document.documentElement.setAttribute('data-theme', db.settings.tema || 'auto'); }
+
+/* ============ diálogo ============ */
+function openDialog(html) { const d = $('#dlg'); d.innerHTML = `<div class="dlg">${html}</div>`; if (!d.open) d.showModal(); return d; }
+function closeDialog() { const d = $('#dlg'); if (d.open) d.close(); }
+function confirmDlg(msg, okLabel, onOk) {
+  openDialog(`<h2>Confirmar</h2><div>${msg}</div><div class="bar"><button class="btn" data-x="no">Cancelar</button><button class="btn danger" data-x="yes">${okLabel}</button></div>`);
+  $('#dlg [data-x=no]').onclick = closeDialog;
+  $('#dlg [data-x=yes]').onclick = () => { closeDialog(); onOk(); };
+}
+
+/* ============ opções ============ */
+const DOENCAS = ['Hipertensão','Diabetes','Colesterol alto','Cardiopatia','Asma / Bronquite','Gastrite / Refluxo','Problemas de tireoide','Artrose / Artrite','Osteoporose','Depressão / Ansiedade','Enxaqueca','Epilepsia','Problemas renais','Problemas hepáticos','Anemia','Câncer','Hepatites / HIV','Alergias respiratórias','Problemas de coluna','Gestante / Lactante'];
+const FAMILIA = ['Diabetes','Hipertensão','Doenças do coração','AVC / Derrame','Câncer','Colesterol alto','Obesidade','Depressão / Ansiedade','Alzheimer / Demência','Asma / Alergias','Problemas de tireoide','Osteoporose','Doenças renais','Doenças genéticas / hereditárias'];
+const STATUS = { agendada: ['Agendada', ''], realizada: ['Realizada', 'ok'], cancelada: ['Cancelada', 'gray'], faltou: ['Faltou', 'bad'] };
+
+/* ============ roteamento ============ */
+const state = { calY: new Date().getFullYear(), calM: new Date().getMonth(), calSel: todayStr(), tab: 'ficha', q: '' };
+const NAV = [['#/', 'Hoje', 'home'], ['#/pacientes', 'Pacientes', 'users'], ['#/agenda', 'Agenda', 'cal'], ['#/config', 'Ajustes', 'cog']];
+
+function route() {
+  const h = location.hash || '#/';
+  const parts = h.slice(2).split('/');
+  const [a, b, c] = parts;
+  let html = '', after = null, active = '#/';
+  if (!a) { html = viewHome(); active = '#/'; }
+  else if (a === 'pacientes') { html = viewPatients(); active = '#/pacientes'; after = bindPatients; }
+  else if (a === 'paciente' && b === 'novo') { html = viewForm(null); active = '#/pacientes'; after = () => bindForm(null); }
+  else if (a === 'paciente' && c === 'editar') { html = viewForm(b); active = '#/pacientes'; after = () => bindForm(b); }
+  else if (a === 'paciente') { html = viewDetail(b); active = '#/pacientes'; after = () => bindDetail(b); }
+  else if (a === 'agenda') { html = viewAgenda(); active = '#/agenda'; after = bindAgenda; }
+  else if (a === 'config') { html = viewConfig(); active = '#/config'; after = bindConfig; }
+  else { html = viewHome(); }
+  const wide = matchMedia('(min-width: 821px)').matches;
+  $('#main').innerHTML = (wide ? '' : Account.pillHtml()) + html;
+  const navHtml = NAV.map(([href, label, ic]) => `<button class="nav ${href === active ? 'active' : ''}" onclick="location.hash='${href}'" ${href === active ? 'aria-current="page"' : ''}>${ICON[ic]}<span>${label}</span></button>`).join('');
+  $('#side').innerHTML = `<div class="brand"><div class="logo">${KMARK}</div><div><b>Kuravo</b><small>Fichas e agenda</small></div></div>
+    <button class="side-new" onclick="location.hash='#/paciente/novo'">${ICON.plus}<span>Novo paciente</span></button>
+    <nav class="side-nav">${navHtml}</nav><div class="spacer"></div>${wide ? Account.pillHtml() : ''}${Account.sideFooter()}`;
+  $('#main').dataset.view = a || 'home';
+  Account.paintStatus();
+  $('#bottom').innerHTML = navHtml;
+  if (after) after();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+matchMedia('(min-width: 821px)').addEventListener('change', () => { if (Vault.isUnlocked() && !$('#pf')) route(); });
+
+/* ============ INÍCIO ============ */
+function apptRow(a, showDate, onclick) {
+  const p = patientById(a.patientId);
+  const [lbl, cls] = STATUS[a.status] || STATUS.agendada;
+  return `<div class="item ev ev-${a.status || 'agendada'}" onclick="${onclick || `location.hash='#/paciente/${a.patientId}'`}">
+    <div class="ev-time"><b>${esc(a.hora || '--:--')}</b>${showDate ? `<small>${fmtShort(a.data)}</small>` : ''}</div>
+    <div class="ev-bar"></div>
+    <div class="grow"><b>${esc(p ? p.nome : 'Paciente removido')}</b><small>${esc(a.tipo || 'Consulta')}${a.notas ? ' · ' + esc(a.notas) : ''}</small></div>
+    ${a.status && a.status !== 'agendada' ? `<span class="chip ${cls}">${lbl}</span>` : ''}<span class="chev">${ICON.chevR}</span></div>`;
+}
+function byDay(list, rowFn) {
+  const groups = {};
+  list.forEach(a => (groups[a.data] = groups[a.data] || []).push(a));
+  const hoje = todayStr(), amanha = addDays(hoje, 1);
+  return Object.keys(groups).sort().map(d => `<div class="dayhdr">${d === hoje ? 'Hoje' : d === amanha ? 'Amanhã' : longDate(d).replace(/^./, c => c.toUpperCase())}</div>${groups[d].map(rowFn).join('')}`).join('');
+}
+function viewHome() {
+  const hoje = todayStr(), em7 = addDays(hoje, 7);
+  const ativas = db.appointments.filter(a => a.status === 'agendada');
+  const sortK = (x, y) => apptKey(x).localeCompare(apptKey(y));
+  const dHoje = ativas.filter(a => a.data === hoje).sort(sortK);
+  const prox = ativas.filter(a => a.data > hoje && a.data <= em7).sort(sortK);
+  const next = ativas.filter(a => apptKey(a) >= nowKey()).sort(sortK)[0];
+  const mes = new Date().getMonth() + 1;
+  const aniv = db.patients.filter(p => p.nascimento && +p.nascimento.slice(5, 7) === mes).sort((x, y) => x.nascimento.slice(8).localeCompare(y.nascimento.slice(8)));
+  const recentes = [...db.patients].sort((x, y) => (y.updatedAt || '').localeCompare(x.updatedAt || '')).slice(0, 8);
+  const nome = db.settings.profissional ? ', ' + esc(db.settings.profissional.split(' ')[0]) : '';
+  const h = new Date().getHours();
+  const saud = h < 5 ? 'Boa noite' : h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
+  let hero;
+  if (next) {
+    const p = patientById(next.patientId);
+    const quando = next.data === hoje ? 'Hoje' : next.data === addDays(hoje, 1) ? 'Amanhã' : longDate(next.data).replace(/^./, c => c.toUpperCase());
+    hero = `<button class="hero" onclick="location.hash='#/paciente/${next.patientId}'">
+      <div class="hero-l"><span class="hero-k">${ICON.clock} Próxima consulta</span><span class="hero-t">${esc(next.hora || '--:--')}</span><span class="hero-d">${quando}</span></div>
+      <div class="hero-r"><div class="avatar lg" ${av(p && p.nome)}>${initials(p ? p.nome : '?')}</div><div class="hero-who"><b>${esc(p ? p.nome : 'Paciente removido')}</b><small>${esc(next.tipo || 'Consulta')}${next.notas ? ' · ' + esc(next.notas) : ''}</small></div><span class="chev">${ICON.chevR}</span></div></button>`;
+  } else {
+    hero = `<div class="hero hero-empty"><div class="hero-l"><span class="hero-k">${ICON.sparkle} Agenda livre</span><span class="hero-t sm">Nenhuma consulta marcada</span><span class="hero-d">Que tal agendar o próximo retorno?</span></div>
+      <button class="btn on-hero" onclick="newAppt()">${ICON.plus} Agendar</button></div>`;
+  }
+  return ptitle(`${saud}${nome}`, { eyebrow: longDate(hoje), actions: `<button class="btn" onclick="newAppt()">${ICON.calPlus} Agendar</button><button class="btn primary" onclick="location.hash='#/paciente/novo'">${ICON.plus} Novo paciente</button>` })
+  + hero
+  + `<div class="widgets">
+      <a class="wdg" href="#/pacientes">${sq('users', '#6521DB')}<b>${db.patients.length}</b><span>Pacientes</span></a>
+      <a class="wdg" href="#/agenda">${sq('cal', C.red)}<b>${dHoje.length}</b><span>Consultas hoje</span></a>
+      <a class="wdg" href="#/agenda">${sq('clock', C.orange)}<b>${prox.length}</b><span>Próximos 7 dias</span></a>
+    </div>
+    <div class="dash">
+      <section class="panel"><div class="panel-h">${sq('cal', C.red)}<h2>Hoje</h2><a class="lnk" href="#/agenda">Agenda ${ICON.chevR}</a></div>
+        ${dHoje.length ? `<div class="list">${dHoje.map(a => apptRow(a)).join('')}</div>` : `<div class="empty">Nenhuma consulta para hoje</div>`}</section>
+      <section class="panel"><div class="panel-h">${sq('clock', C.orange)}<h2>Próximos dias</h2></div>
+        ${prox.length ? `<div class="list">${byDay(prox.slice(0, 8), a => apptRow(a))}</div>` : '<div class="empty">Sem consultas nos próximos 7 dias</div>'}</section>
+      <section class="panel"><div class="panel-h">${sq('users', '#6521DB')}<h2>Pacientes recentes</h2><a class="lnk" href="#/pacientes">Todos ${ICON.chevR}</a></div>
+        ${recentes.length ? `<div class="faces">${recentes.map(p => `<button class="face" onclick="location.hash='#/paciente/${p.id}'"><span class="avatar lg" ${av(p.nome)}>${initials(p.nome)}</span><span>${esc(p.nome.split(' ')[0])}</span></button>`).join('')}</div>` : `<div class="empty">Cadastre o primeiro paciente para começar</div>`}</section>
+      <section class="panel"><div class="panel-h">${sq('cake', C.pink)}<h2>Aniversários em ${MESES[mes - 1]}</h2></div>
+        ${aniv.length ? `<div class="list">${aniv.slice(0, 6).map(p => `<div class="item" onclick="location.hash='#/paciente/${p.id}'"><div class="avatar" ${av(p.nome)}>${initials(p.nome)}</div><div class="grow"><b>${esc(p.nome)}</b><small>Dia ${+p.nascimento.slice(8)} · faz ${parseInt(idade(p.nascimento)) + 1} anos</small></div><span class="chev">${ICON.chevR}</span></div>`).join('')}</div>` : '<div class="empty">Nenhum aniversário este mês</div>'}</section>
+    </div>`;
+}
+
+/* ============ PACIENTES ============ */
+function patientItem(p) {
+  const meta = [idade(p.nascimento), p.telefone].filter(Boolean).join(' · ');
+  return `<div class="item prow" onclick="location.hash='#/paciente/${p.id}'"><div class="avatar" ${av(p.nome)}>${initials(p.nome)}</div><div class="grow"><b>${esc(p.nome)}</b><small>${esc(meta || 'Sem dados adicionais')}</small></div>${p.alergias ? `<span class="dot-warn" title="Possui alergias">${ICON.warn}</span>` : ''}<span class="chev">${ICON.chevR}</span></div>`;
+}
+function viewPatients() {
+  const n = db.patients.length;
+  return ptitle('Pacientes', { sub: `${n} ${n === 1 ? 'paciente' : 'pacientes'}`, actions: `<button class="btn primary" onclick="location.hash='#/paciente/novo'">${ICON.plus} Novo paciente</button>` })
+    + `<div class="search">${ICON.search}<input type="search" id="q" placeholder="Buscar por nome, telefone, doença…" value="${esc(state.q)}" autocomplete="off"></div>
+    <div id="plist"></div>`;
+}
+function bindPatients() {
+  const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const draw = () => {
+    const q = norm(state.q.trim());
+    const arr = db.patients.filter(p => !q || norm([p.nome, p.telefone, p.email, p.cpf, (p.doencas || []).join(' '), p.doencasOutras, p.queixa].join(' ')).includes(q))
+      .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    if (!arr.length) {
+      $('#plist').innerHTML = db.patients.length ? emptyState('search', 'Nenhum resultado', `Nada encontrado para “${esc(state.q)}”.`)
+        : emptyState('users', 'Nenhum paciente ainda', 'Cadastre a primeira ficha de anamnese.', `<button class="btn primary" onclick="location.hash='#/paciente/novo'">${ICON.plus} Novo paciente</button>`);
+      return;
+    }
+    if (q) { $('#plist').innerHTML = `<h3 class="sec">${arr.length} ${arr.length === 1 ? 'resultado' : 'resultados'}</h3><div class="group list">${arr.map(patientItem).join('')}</div>`; return; }
+    const groups = {};
+    arr.forEach(p => { const L = (norm(p.nome).trim()[0] || '#').toUpperCase(); (groups[/[A-Z]/.test(L) ? L : '#'] = groups[/[A-Z]/.test(L) ? L : '#'] || []).push(p); });
+    $('#plist').innerHTML = Object.keys(groups).sort().map(L => `<section class="alpha"><h3 class="sec">${L}</h3><div class="group list">${groups[L].map(patientItem).join('')}</div></section>`).join('');
+  };
+  $('#q').oninput = e => { state.q = e.target.value; draw(); };
+  draw();
+}
+
+/* ---- formulário de anamnese ---- */
+const F = (label, name, val, type = 'text', extra = '') => `<label class="f">${label}<input type="${type}" name="${name}" value="${esc(val)}" ${extra}></label>`;
+const T = (label, name, val, ph = '') => `<label class="f">${label}<textarea name="${name}" placeholder="${esc(ph)}">${esc(val)}</textarea></label>`;
+const S = (label, name, val, opts) => `<label class="f">${label}<select name="${name}"><option value=""></option>${opts.map(o => `<option ${o === val ? 'selected' : ''}>${o}</option>`).join('')}</select></label>`;
+const LG = (ic, c, t) => `<legend>${sq(ic, c)}<span>${t}</span></legend>`;
+
+function viewForm(id) {
+  const p = id ? patientById(id) : {};
+  if (id && !p) return emptyState('person', 'Paciente não encontrado', 'Ele pode ter sido excluído.', `<button class="btn" onclick="location.hash='#/pacientes'">Voltar</button>`);
+  const d = p.doencas || [];
+  return `<div class="navbar"><button type="button" class="nb-back" onclick="history.back()">${ICON.chevL}<span>Voltar</span></button></div>`
+  + ptitle(id ? 'Editar anamnese' : 'Nova anamnese', { sub: id ? esc(p.nome) : 'Preencha o que souber — só o nome é obrigatório.', cls: 'pt-form', actions: `<button type="button" class="btn" onclick="history.back()">Cancelar</button><button type="button" class="btn primary" onclick="document.getElementById('pf').requestSubmit()">${ICON.check} Salvar</button>` })
+  + `<form id="pf" autocomplete="off" class="aform">
+    <fieldset>${LG('person', C.blue, 'Dados pessoais')}<div class="grid g2">
+      ${F('Nome completo *', 'nome', p.nome, 'text', 'required placeholder="Nome e sobrenome"')}
+      ${F('Data de nascimento', 'nascimento', p.nascimento, 'date', `max="${todayStr()}"`)}
+      ${S('Gênero', 'genero', p.genero, ['Feminino', 'Masculino', 'Outro', 'Prefere não informar'])}
+      ${S('Estado civil', 'estadoCivil', p.estadoCivil, ['Solteiro(a)', 'Casado(a)', 'União estável', 'Divorciado(a)', 'Viúvo(a)'])}
+      ${(db.settings.mostrarCpf || p.cpf) ? F('CPF (opcional)', 'cpf', p.cpf, 'text', 'inputmode="numeric"') : ''}
+      ${F('Profissão', 'profissao', p.profissao)}
+      ${F('Telefone / WhatsApp', 'telefone', p.telefone, 'tel', 'placeholder="06 12 34 56 78 ou +33 6 12 34 56 78"')}
+      ${F('E-mail', 'email', p.email, 'email', 'placeholder="nome@exemplo.com"')}
+      ${F('Endereço', 'endereco', p.endereco)}
+      ${F('Contato de emergência', 'emergNome', p.emergNome)}
+      ${F('Telefone de emergência', 'emergTel', p.emergTel, 'tel')}
+    </div></fieldset>
+
+    <fieldset>${LG('bubble', C.indigo, 'Queixa e histórico atual')}<div class="grid">
+      ${T('Queixa principal', 'queixa', p.queixa, 'O que trouxe o paciente até aqui?')}
+      ${T('História da doença atual', 'hda', p.hda, 'Início, duração, intensidade, fatores que pioram ou melhoram…')}
+    </div></fieldset>
+
+    <fieldset>${LG('pulse', C.red, 'Doenças e condições')}
+      <div class="checks">${DOENCAS.map(x => `<label class="check"><input type="checkbox" name="doencas" value="${x}" ${d.includes(x) ? 'checked' : ''}>${x}</label>`).join('')}</div>
+      <div class="grid">${T('Outras doenças / detalhes', 'doencasOutras', p.doencasOutras)}</div>
+    </fieldset>
+
+    <fieldset>${LG('pill', C.orange, 'Medicamentos, alergias e cirurgias')}<div class="grid g2">
+      ${T('Medicamentos em uso (nome, dose, horário)', 'medicamentos', p.medicamentos)}
+      ${T('Alergias (medicamentos, alimentos, outras)', 'alergias', p.alergias)}
+      ${T('Cirurgias e internações anteriores', 'cirurgias', p.cirurgias)}
+      ${T('Tratamentos anteriores', 'tratamentosAnt', p.tratamentosAnt, 'Fisioterapia, terapias, tratamentos que já fez…')}
+    </div></fieldset>
+
+    <fieldset>${LG('family', C.brown, 'Histórico familiar')}
+      <p class="hint">Marque as doenças que existem (ou existiram) na família: pais, irmãos, avós, tios.</p>
+      <div class="checks">${FAMILIA.map(x => `<label class="check"><input type="checkbox" name="histFamDoencas" value="${x}" ${(p.histFamDoencas || []).includes(x) ? 'checked' : ''}>${x}</label>`).join('')}</div>
+      <div class="grid">${T('Detalhes: quem tem/teve e com que idade', 'histFamiliar', p.histFamiliar, 'Ex.: pai – infarto aos 55; avó materna – câncer de mama…')}</div>
+    </fieldset>
+
+    <fieldset id="fsMulher" class="hidden">${LG('flower', C.pink, 'Saúde da mulher')}<div class="grid g3">
+      ${S('Ciclo menstrual', 'ciclo', p.ciclo, ['Regular', 'Irregular', 'Ausente', 'Menopausa'])}
+      ${F('Última menstruação', 'dum', p.dum, 'date', `max="${todayStr()}"`)}
+      ${S('Gestante / lactante', 'gestLact', p.gestLact, ['Não', 'Gestante', 'Lactante'])}
+      ${F('Nº de gestações', 'gestacoes', p.gestacoes, 'number', 'min="0" inputmode="numeric"')}
+      ${F('Nº de partos', 'partos', p.partos, 'number', 'min="0" inputmode="numeric"')}
+      ${F('Método contraceptivo', 'contraceptivo', p.contraceptivo)}
+    </div><div class="grid">${T('Observações (cólicas, TPM, menopausa, abortos…)', 'obsMulher', p.obsMulher)}</div></fieldset>
+
+    <fieldset>${LG('bolt', C.yellow, 'Dor, estresse e rotina')}<div class="grid g2">
+      ${F('Local da dor (se houver)', 'dorLocal', p.dorLocal)}
+      ${S('Humor / emocional', 'humor', p.humor, ['Estável', 'Ansioso(a)', 'Triste / desanimado(a)', 'Irritado(a)', 'Variável'])}
+      ${F('Intensidade da dor (0 a 10)', 'dorNivel', p.dorNivel, 'number', 'min="0" max="10"')}
+      ${F('Nível de estresse (0 a 10)', 'estresse', p.estresse, 'number', 'min="0" max="10"')}
+    </div><div class="grid">${T('Rotina (trabalho, lazer, posturas, esforços)', 'rotina', p.rotina)}</div></fieldset>
+
+    <fieldset>${LG('flask', C.cyan, 'Exames, vacinas e acompanhamento')}<div class="grid g2">
+      ${T('Exames recentes (tipo, data, resultado)', 'exames', p.exames)}
+      ${T('Vacinas', 'vacinas', p.vacinas, 'Em dia? Quais faltam?')}
+      ${T('Outros profissionais que acompanham', 'outrosProf', p.outrosProf, 'Médico, nutricionista, psicólogo…')}
+      ${F('Como conheceu / quem indicou', 'indicacao', p.indicacao)}
+    </div></fieldset>
+
+    <fieldset>${LG('target', C.purple, 'Objetivos e plano')}<div class="grid g2">
+      ${T('Objetivos do paciente', 'objetivos', p.objetivos, 'O que ele(a) espera do tratamento?')}
+      ${T('Plano / conduta', 'plano', p.plano, 'Orientações, tratamento proposto, retorno…')}
+    </div></fieldset>
+
+    <fieldset>${LG('leaf', C.green, 'Hábitos de vida')}<div class="grid g3">
+      ${S('Tabagismo', 'tabagismo', p.tabagismo, ['Nunca fumou', 'Ex-fumante', 'Fumante'])}
+      ${S('Álcool', 'alcool', p.alcool, ['Não bebe', 'Socialmente', 'Frequentemente'])}
+      ${S('Atividade física', 'atividade', p.atividade, ['Sedentário', '1–2x por semana', '3–4x por semana', '5x ou mais'])}
+      ${F('Horas de sono por noite', 'sono', p.sono, 'text', 'placeholder="Ex.: 6h"')}
+      ${F('Água por dia', 'agua', p.agua, 'text', 'placeholder="Ex.: 1,5 L"')}
+      ${S('Funcionamento intestinal', 'intestino', p.intestino, ['Regular', 'Constipado', 'Diarreia frequente', 'Alternado'])}
+    </div><div class="grid">${T('Alimentação', 'alimentacao', p.alimentacao, 'Refeições, restrições, preferências…')}</div></fieldset>
+
+    <fieldset>${LG('ruler', C.mint, 'Medidas e observações')}<div class="grid g4">
+      ${F('Peso (kg)', 'peso', p.peso, 'number', 'step="0.1" min="0" inputmode="decimal"')}
+      ${F('Altura (cm)', 'altura', p.altura, 'number', 'step="1" min="0" inputmode="numeric"')}
+      ${F('Pressão arterial', 'pa', p.pa, 'text', 'placeholder="120/80"')}
+      ${F('Glicemia (mg/dL)', 'glicemia', p.glicemia, 'text', 'inputmode="decimal"')}
+    </div><div class="grid">${T('Observações gerais', 'observacoes', p.observacoes)}</div></fieldset>
+
+    <fieldset>${LG('shield', C.green, 'Consentimento')}
+      <label class="consent"><input type="checkbox" class="switch" name="consentimento" value="Sim" ${p.consentimento ? 'checked' : ''}><span>O paciente autorizou o registro dos seus dados de saúde (RGPD / LGPD)${p.consentimentoData ? `<small>Registrado em ${fmtDate(p.consentimentoData)}</small>` : ''}</span></label>
+    </fieldset>
+
+    <div class="formbar"><button type="button" class="btn" id="cancelar">Cancelar</button><button class="btn primary" type="submit">${ICON.check} Salvar paciente</button></div>
+  </form>`;
+}
+function bindForm(id) {
+  $('#cancelar').onclick = () => history.back();
+  const gSel = $('select[name=genero]'), fsM = $('#fsMulher');
+  const togM = () => fsM.classList.toggle('hidden', gSel.value !== 'Feminino');
+  gSel.onchange = togM; togM();
+  $('#pf').onsubmit = e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const obj = {};
+    for (const [k, v] of fd.entries()) if (k !== 'doencas' && k !== 'histFamDoencas') obj[k] = String(v).trim();
+    obj.doencas = fd.getAll('doencas');
+    obj.histFamDoencas = fd.getAll('histFamDoencas');
+    const prev = id ? patientById(id) : null;
+    obj.consentimento = obj.consentimento || '';
+    obj.consentimentoData = obj.consentimento ? ((prev && prev.consentimentoData) || todayStr()) : '';
+    if (!obj.nome) return toast('Informe o nome do paciente');
+    const now = new Date().toISOString();
+    if (id) { Object.assign(patientById(id), obj, { updatedAt: now }); }
+    else { id = uid(); db.patients.push({ id, createdAt: now, updatedAt: now, ...obj }); }
+    saveDB(); toast('Paciente salvo ✔');
+    location.hash = '#/paciente/' + id;
+  };
+}
+
+/* ---- ficha do paciente (estilo Contatos) ---- */
+const KV = (k, v) => v ? `<dt>${k}</dt><dd>${esc(v)}</dd>` : '';
+function imc(p) {
+  const w = parseFloat(String(p.peso).replace(',', '.')), h = parseFloat(String(p.altura).replace(',', '.')) / 100;
+  if (!w || !h) return '';
+  const v = w / (h * h);
+  const c = v < 18.5 ? 'Abaixo do peso' : v < 25 ? 'Peso normal' : v < 30 ? 'Sobrepeso' : 'Obesidade';
+  return `${v.toFixed(1).replace('.', ',')} (${c})`;
+}
+/* seção agrupada: cabeçalho com ícone + grupo com linhas rótulo/valor */
+function gsec(ic, c, title, rows, extra = '', empty = 'Nada registrado.') {
+  const body = (extra || '') + (rows && rows.trim() ? `<dl class="kv">${rows}</dl>` : '');
+  return `<section class="gsec"><h3 class="gsec-h">${sq(ic, c)}<span>${title}</span></h3><div class="group">${body || `<div class="none">${empty}</div>`}</div></section>`;
+}
+const metric = (label, val, unit, ic, c) => val ? `<div class="metric">${sq(ic, c)}<span>${label}</span><b>${esc(val)}<small>${unit}</small></b></div>` : '';
+function fichaExtras(p) {
+  const fam = p.histFamDoencas || [];
+  const famTags = fam.length ? `<div class="tags pad">${fam.map(x => `<span class="chip warn">${esc(x)}</span>`).join('')}</div>` : '';
+  return gsec('family', C.brown, 'Histórico familiar', KV('Detalhes', p.histFamiliar), famTags)
+    + ((p.ciclo || p.dum || p.gestLact || p.gestacoes || p.partos || p.contraceptivo || p.obsMulher) ? gsec('flower', C.pink, 'Saúde da mulher', KV('Ciclo menstrual', p.ciclo) + KV('Última menstruação', p.dum && fmtDate(p.dum)) + KV('Gestante / lactante', p.gestLact && p.gestLact !== 'Não' ? p.gestLact : '') + KV('Gestações', p.gestacoes) + KV('Partos', p.partos) + KV('Contraceptivo', p.contraceptivo) + KV('Observações', p.obsMulher)) : '')
+    + gsec('bolt', C.yellow, 'Dor, estresse e rotina', KV('Local da dor', p.dorLocal) + KV('Intensidade da dor', p.dorNivel !== undefined && p.dorNivel !== '' ? p.dorNivel + ' / 10' : '') + KV('Estresse', p.estresse !== undefined && p.estresse !== '' ? p.estresse + ' / 10' : '') + KV('Humor', p.humor) + KV('Rotina', p.rotina))
+    + gsec('flask', C.cyan, 'Exames e acompanhamento', KV('Exames', p.exames) + KV('Vacinas', p.vacinas) + KV('Outros profissionais', p.outrosProf) + KV('Indicação', p.indicacao))
+    + gsec('target', C.purple, 'Objetivos e plano', KV('Objetivos', p.objetivos) + KV('Plano / conduta', p.plano));
+}
+function viewDetail(id) {
+  const p = patientById(id);
+  if (!p) return emptyState('person', 'Paciente não encontrado', 'Ele pode ter sido excluído.', `<button class="btn" onclick="location.hash='#/pacientes'">Voltar para pacientes</button>`);
+  const appts = db.appointments.filter(a => a.patientId === id).sort((x, y) => apptKey(y).localeCompare(apptKey(x)));
+  const proxima = db.appointments.filter(a => a.patientId === id && a.status === 'agendada' && apptKey(a) >= todayStr()).sort((x, y) => apptKey(x).localeCompare(apptKey(y)))[0];
+  const fone = digits(p.telefone);
+  const meta = [idade(p.nascimento), p.genero, p.profissao].filter(Boolean).join(' · ');
+  const metrics = metric('Peso', p.peso, 'kg', 'ruler', C.mint) + metric('Altura', p.altura, 'cm', 'ruler', C.teal) + metric('IMC', imc(p).split(' (')[0], imc(p) ? ' ' + imc(p).split(' (')[1].replace(')', '') : '', 'pulse', C.green) + metric('Pressão', p.pa, '', 'pulse', C.red) + metric('Glicemia', p.glicemia, 'mg/dL', 'flask', C.orange);
+  const ficha = `
+    ${p.alergias ? `<div class="alertcard">${sq('warn', C.red)}<div><b>Alergias</b><span>${esc(p.alergias)}</span></div></div>` : ''}
+    ${metrics ? `<div class="metrics">${metrics}</div>` : ''}
+    <div class="gsecs">
+      ${gsec('bubble', C.indigo, 'Queixa e histórico', KV('Queixa principal', p.queixa) + KV('História atual', p.hda))}
+      ${gsec('person', C.blue, 'Dados pessoais', KV('Nascimento', p.nascimento ? fmtDate(p.nascimento) + ' (' + idade(p.nascimento) + ')' : '') + KV('Gênero', p.genero) + KV('Estado civil', p.estadoCivil) + KV('CPF', p.cpf) + KV('Profissão', p.profissao) + KV('Telefone', p.telefone) + KV('E-mail', p.email) + KV('Endereço', p.endereco) + KV('Emergência', [p.emergNome, p.emergTel].filter(Boolean).join(' · ')))}
+      ${gsec('pulse', C.red, 'Doenças e condições', KV('Outras', p.doencasOutras), (p.doencas || []).length ? `<div class="tags pad">${p.doencas.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '', 'Nenhuma marcada.')}
+      ${gsec('pill', C.orange, 'Medicamentos e cirurgias', KV('Medicamentos', p.medicamentos) + KV('Alergias', p.alergias) + KV('Cirurgias', p.cirurgias) + KV('Tratamentos anteriores', p.tratamentosAnt))}
+      ${fichaExtras(p)}
+      ${gsec('leaf', C.green, 'Hábitos de vida', KV('Tabagismo', p.tabagismo) + KV('Álcool', p.alcool) + KV('Atividade física', p.atividade) + KV('Sono', p.sono) + KV('Água', p.agua) + KV('Intestino', p.intestino) + KV('Alimentação', p.alimentacao) + KV('Observações', p.observacoes))}
+      <section class="gsec"><h3 class="gsec-h">${sq('shield', C.green)}<span>Consentimento</span></h3><div class="group"><div class="consent-st ${p.consentimento ? 'ok' : ''}">${p.consentimento ? `${ICON.check} Registrado em ${fmtDate(p.consentimentoData)}` : 'Consentimento (RGPD/LGPD) ainda não registrado'}</div></div></section>
+    </div>
+    <div class="group danger-zone"><button class="row-btn danger" id="bDel">${ICON.trash}<span>Excluir paciente</span></button></div>`;
+  const cons = `<div class="row between cons-h"><span class="muted">${appts.length} ${appts.length === 1 ? 'consulta' : 'consultas'}</span><button class="btn primary sm" onclick="newAppt('${id}')">${ICON.plus} Nova consulta</button></div>
+    ${appts.length ? `<div class="group list">${appts.map(a => {
+      const [lbl, cls] = STATUS[a.status] || STATUS.agendada;
+      return `<div class="item ev ev-${a.status || 'agendada'}" onclick="editAppt('${a.id}')"><div class="ev-time"><b>${esc(a.hora || '--:--')}</b><small>${fmtShort(a.data)} ${a.data.slice(0, 4)}</small></div><div class="ev-bar"></div><div class="grow"><b>${esc(a.tipo || 'Consulta')}</b><small>${esc(a.evolucao || a.notas || 'Sem anotações')}</small></div><span class="chip ${cls}">${lbl}</span><span class="chev">${ICON.chevR}</span></div>`;
+    }).join('')}</div>` : emptyState('cal', 'Nenhuma consulta', 'As consultas deste paciente aparecem aqui.')}`;
+  const qa = (inner, attrs) => `<${attrs.startsWith('href') ? 'a' : 'button'} class="qa" ${attrs}>${inner}</${attrs.startsWith('href') ? 'a' : 'button'}>`;
+  return `<div class="navbar"><button class="nb-back" onclick="location.hash='#/pacientes'">${ICON.chevL}<span>Pacientes</span></button><span class="grow"></span><button class="nb-btn" onclick="location.hash='#/paciente/${id}/editar'">Editar</button></div>
+  <div class="contact">
+    <div class="avatar xl" ${av(p.nome)}>${initials(p.nome)}</div>
+    <h1>${esc(p.nome)}</h1>
+    <p class="sub">${esc(meta || 'Sem dados adicionais')}</p>
+    ${proxima ? `<span class="capsule">${ICON.cal} Próxima: ${longDate(proxima.data)} às ${esc(proxima.hora)}</span>` : ''}
+    <div class="qactions">
+      ${fone ? qa(`${ICON.msg}<span>WhatsApp</span>`, `type="button" id="bWa"`) : ''}
+      ${fone && !window.electronAPI ? qa(`${ICON.phone}<span>Ligar</span>`, `href="tel:${esc(p.telefone.replace(/\s/g, ''))}"`) : ''}
+      ${qa(`${ICON.calPlus}<span>Agendar</span>`, `onclick="newAppt('${id}')"`)}
+      ${qa(`${ICON.printer}<span>Imprimir</span>`, `id="bPrint"`)}
+      ${qa(`${ICON.share}<span>Exportar</span>`, `id="bExpP"`)}
+    </div>
+  </div>
+  <div class="tabs-wrap"><div class="tabs"><button class="tab ${state.tab === 'ficha' ? 'active' : ''}" data-t="ficha">Ficha</button><button class="tab ${state.tab === 'cons' ? 'active' : ''}" data-t="cons">Consultas${appts.length ? ` (${appts.length})` : ''}</button></div></div>
+  ${state.tab === 'ficha' ? ficha : cons}`;
+}
+function bindDetail(id) {
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => { state.tab = b.dataset.t; route(); });
+  const del = $('#bDel'); if (!del) return;
+  del.onclick = () => confirmDlg('Excluir este paciente e todas as consultas dele? Isso não pode ser desfeito.', 'Excluir', () => {
+    db.patients = db.patients.filter(p => p.id !== id);
+    db.appointments = db.appointments.filter(a => a.patientId !== id);
+    saveDB(); toast('Paciente excluído'); location.hash = '#/pacientes';
+  });
+  if ($('#bWa')) $('#bWa').onclick = () => { const pt = patientById(id); if (pt) openWhatsApp(waNumber(pt.telefone)); };
+  $('#bPrint').onclick = () => printPatient(id);
+  // direito de acesso / portabilidade (RGPD arts. 15 e 20): todos os dados do paciente em um arquivo
+  $('#bExpP').onclick = () => {
+    const p = patientById(id); if (!p) return;
+    const nome = p.nome.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'paciente';
+    download(`dados-${nome}-${todayStr()}.json`, JSON.stringify({ exportadoEm: new Date().toISOString(), paciente: p, consultas: db.appointments.filter(a => a.patientId === id) }, null, 2), 'application/json');
+    toast('Arquivo exportado. Contém dados de saúde: guarde com cuidado.');
+  };
+}
+
+function fichaHtml(id) {
+  const p = patientById(id); if (!p) return '';
+  const row = (k, v) => v ? `<tr><td>${k}</td><td>${esc(v).replace(/\n/g, '<br>')}</td></tr>` : '';
+  const sec = (t, rows) => rows.trim() ? `<h3>${t}</h3><table>${rows}</table>` : '';
+  const s = db.settings;
+  return `<div class="cab"><span>${esc(s.clinica || '')} ${esc(s.profissional ? '· ' + s.profissional : '')}</span><span>Emitido em ${fmtDate(todayStr())}</span></div>
+    <h1>Ficha de anamnese — ${esc(p.nome)}</h1>
+    ${sec('Dados pessoais', row('Nascimento', p.nascimento ? fmtDate(p.nascimento) + ' (' + idade(p.nascimento) + ')' : '') + row('Gênero', p.genero) + row('Estado civil', p.estadoCivil) + row('CPF', p.cpf) + row('Profissão', p.profissao) + row('Telefone', p.telefone) + row('E-mail', p.email) + row('Endereço', p.endereco) + row('Emergência', [p.emergNome, p.emergTel].filter(Boolean).join(' · ')))}
+    ${sec('Queixa e histórico', row('Queixa principal', p.queixa) + row('História atual', p.hda))}
+    ${sec('Saúde', row('Doenças', (p.doencas || []).join(', ')) + row('Outras doenças', p.doencasOutras) + row('Medicamentos', p.medicamentos) + row('Alergias', p.alergias) + row('Cirurgias', p.cirurgias) + row('Tratamentos anteriores', p.tratamentosAnt))}
+    ${sec('Histórico familiar', row('Doenças na família', (p.histFamDoencas || []).join(', ')) + row('Detalhes', p.histFamiliar))}
+    ${sec('Saúde da mulher', row('Ciclo menstrual', p.ciclo) + row('Última menstruação', p.dum && fmtDate(p.dum)) + row('Gestante / lactante', p.gestLact && p.gestLact !== 'Não' ? p.gestLact : '') + row('Gestações', p.gestacoes) + row('Partos', p.partos) + row('Contraceptivo', p.contraceptivo) + row('Observações', p.obsMulher))}
+    ${sec('Dor, estresse e rotina', row('Local da dor', p.dorLocal) + row('Intensidade da dor', p.dorNivel !== undefined && p.dorNivel !== '' ? p.dorNivel + ' / 10' : '') + row('Estresse', p.estresse !== undefined && p.estresse !== '' ? p.estresse + ' / 10' : '') + row('Humor', p.humor) + row('Rotina', p.rotina))}
+    ${sec('Exames e acompanhamento', row('Exames', p.exames) + row('Vacinas', p.vacinas) + row('Outros profissionais', p.outrosProf))}
+    ${sec('Hábitos', row('Tabagismo', p.tabagismo) + row('Álcool', p.alcool) + row('Atividade física', p.atividade) + row('Sono', p.sono) + row('Água', p.agua) + row('Intestino', p.intestino) + row('Alimentação', p.alimentacao))}
+    ${sec('Medidas', row('Peso', p.peso && p.peso + ' kg') + row('Altura', p.altura && p.altura + ' cm') + row('IMC', imc(p)) + row('Pressão', p.pa) + row('Glicemia', p.glicemia))}
+    ${sec('Observações', row('Observações', p.observacoes))}
+    ${sec('Objetivos e plano', row('Objetivos', p.objetivos) + row('Plano / conduta', p.plano))}
+    ${p.consentimento ? `<p style="margin-top:12px;color:#555;font-size:11px">Consentimento para registro de dados de saúde obtido em ${fmtDate(p.consentimentoData)}.</p>` : ''}
+    <div class="sign"><div>${esc(s.profissional || 'Assinatura do profissional')}</div></div>`;
+}
+
+/* pré-visualização da ficha (o Electron não tem a prévia do Chrome) */
+function printPatient(id) {
+  const html = fichaHtml(id); if (!html) return;
+  const p = patientById(id);
+  $('#printArea').innerHTML = html;
+  const pv = $('#preview');
+  pv.innerHTML = `<div class="pvbar"><b>Pré-visualização da ficha</b><span class="grow"></span>
+    ${window.electronAPI ? '<button class="btn sm" id="pvPdf">Salvar PDF</button>' : ''}
+    <button class="btn sm primary" id="pvPrint">Imprimir</button><button class="btn sm" id="pvClose">Fechar</button></div>
+    <div class="pvbody"><div class="paper sheet">${html}</div></div>`;
+  pv.classList.remove('hidden');
+  const close = () => { pv.classList.add('hidden'); pv.innerHTML = ''; document.removeEventListener('keydown', onKey); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', onKey);
+  $('#pvClose').onclick = close;
+  $('#pvPrint').onclick = () => window.print();
+  const pdf = $('#pvPdf');
+  if (pdf) pdf.onclick = async () => {
+    const r = await window.electronAPI.savePdf('Ficha - ' + p.nome.replace(/[\\/:*?"<>|]/g, ''));
+    if (r && r.ok) toast('PDF salvo ✔');
+  };
+}
+
+/* ============ AGENDA (estilo Calendário) ============ */
+function viewAgenda() {
+  const { calY: y, calM: m } = state;
+  const first = new Date(y, m, 1), start = first.getDay(), dim = new Date(y, m + 1, 0).getDate(), prevDim = new Date(y, m, 0).getDate();
+  const cells = [];
+  for (let i = 0; i < 42; i++) {
+    let dnum, dm = m, dy = y, out = false;
+    if (i < start) { dnum = prevDim - start + i + 1; dm = m - 1; out = true; }
+    else if (i >= start + dim) { dnum = i - start - dim + 1; dm = m + 1; out = true; }
+    else dnum = i - start + 1;
+    const dt = new Date(dy, dm, dnum);
+    const str = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+    const n = db.appointments.filter(a => a.data === str && a.status === 'agendada').length;
+    cells.push(`<button class="day ${out ? 'out' : ''} ${str === todayStr() ? 'today' : ''} ${str === state.calSel ? 'sel' : ''}" data-d="${str}"><span class="dn">${dnum}</span><span class="dots">${'<i></i>'.repeat(Math.min(n, 3))}</span></button>`);
+  }
+  const dia = db.appointments.filter(a => a.data === state.calSel).sort((x, y) => apptKey(x).localeCompare(apptKey(y)));
+  const futuras = db.appointments.filter(a => a.status === 'agendada' && a.data >= todayStr()).sort((x, y) => apptKey(x).localeCompare(apptKey(y))).slice(0, 10);
+  const selD = new Date(state.calSel + 'T12:00:00');
+  return ptitle('Agenda', { eyebrow: `${MESES[m]} de ${y}`, actions: `<button class="btn primary" onclick="newAppt(null,'${state.calSel}')">${ICON.plus} Nova consulta</button>` })
+  + `<div class="agenda">
+    <section class="calcard">
+      <div class="calhead"><b>${MESES[m]} <span>${y}</span></b>
+        <div class="calnav"><button class="ib" id="pm" aria-label="Mês anterior">${ICON.chevL}</button><button class="btn sm" id="goToday">Hoje</button><button class="ib" id="nm" aria-label="Próximo mês">${ICON.chevR}</button></div></div>
+      <div class="cal">${['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => `<div class="dow">${d}</div>`).join('')}${cells.join('')}</div>
+    </section>
+    <div class="daycol">
+      <div class="dayhead"><span class="dh-num ${state.calSel === todayStr() ? 'today' : ''}">${selD.getDate()}</span><div><b>${DIAS[selD.getDay()].replace(/^./, c => c.toUpperCase())}</b><span>${MESES[selD.getMonth()]} de ${selD.getFullYear()}</span></div>
+        <button class="ib tint" onclick="newAppt(null,'${state.calSel}')" aria-label="Agendar neste dia">${ICON.plus}</button></div>
+      <div class="group list">${dia.length ? dia.map(a => apptRow(a, false, `editAppt('${a.id}')`)).join('') : `<div class="none">Nada marcado neste dia</div>`}</div>
+      <h3 class="sec">Próximas consultas</h3>
+      <div class="group list">${futuras.length ? byDay(futuras, a => apptRow(a, false, `editAppt('${a.id}')`)) : `<div class="none">Nenhuma consulta futura agendada</div>`}</div>
+    </div></div>`;
+}
+function bindAgenda() {
+  $('#pm').onclick = () => { state.calM--; if (state.calM < 0) { state.calM = 11; state.calY--; } route(); };
+  $('#nm').onclick = () => { state.calM++; if (state.calM > 11) { state.calM = 0; state.calY++; } route(); };
+  $('#goToday').onclick = () => { const d = new Date(); state.calY = d.getFullYear(); state.calM = d.getMonth(); state.calSel = todayStr(); route(); };
+  document.querySelectorAll('.cal .day').forEach(b => b.onclick = () => { state.calSel = b.dataset.d; const d = new Date(b.dataset.d + 'T12:00:00'); state.calY = d.getFullYear(); state.calM = d.getMonth(); route(); });
+}
+
+/* ---- consulta (novo / editar) ---- */
+function newAppt(patientId, date) { apptDialog({ patientId: patientId || '', data: date || todayStr(), hora: '09:00', duracao: '50', tipo: 'Consulta', status: 'agendada', notas: '', evolucao: '' }, false); }
+function editAppt(id) { const a = db.appointments.find(x => x.id === id); if (a) apptDialog({ ...a }, true); }
+function apptDialog(a, isEdit) {
+  if (!db.patients.length) { toast('Cadastre um paciente primeiro'); location.hash = '#/paciente/novo'; return; }
+  const pats = [...db.patients].sort((x, y) => x.nome.localeCompare(y.nome, 'pt-BR'));
+  openDialog(`<div class="shead"><button class="nb-btn" id="aX">Cancelar</button><h2>${isEdit ? 'Consulta' : 'Nova consulta'}</h2><button class="nb-btn b" id="aOk">${isEdit ? 'Salvar' : 'Adicionar'}</button></div>
+    <div class="group form"><label class="srow">${sq('person', C.blue)}<span class="sl">Paciente</span><select id="aP" class="sin">${!a.patientId ? '<option value="">Selecione…</option>' : ''}${pats.map(p => `<option value="${p.id}" ${p.id === a.patientId ? 'selected' : ''}>${esc(p.nome)}</option>`).join('')}</select></label></div>
+    <div class="group form">
+      <label class="srow">${sq('cal', C.red)}<span class="sl">Data</span><input type="date" id="aD" class="sin" value="${a.data}"></label>
+      <label class="srow">${sq('clock', C.orange)}<span class="sl">Hora</span><input type="time" id="aH" class="sin" value="${a.hora}"></label></div>
+    <div class="group form">
+      <label class="srow">${sq('doc', C.indigo)}<span class="sl">Tipo</span><select id="aT" class="sin">${['Consulta', 'Retorno', 'Avaliação inicial', 'Exame', 'Outro'].map(t => `<option ${t === a.tipo ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      <label class="srow">${sq('check', C.green)}<span class="sl">Situação</span><select id="aS" class="sin">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === a.status ? 'selected' : ''}>${v[0]}</option>`).join('')}</select></label></div>
+    <div class="group form">
+      <input type="text" id="aN" class="fin" value="${esc(a.notas)}" placeholder="Lembrete / observação (ex.: trazer exames)">
+      <textarea id="aE" class="fin" placeholder="Evolução / anotações da consulta">${esc(a.evolucao)}</textarea></div>
+    ${isEdit ? `<div class="group"><button class="row-btn" id="aWa">${sq('msg', C.green)}<span>Enviar lembrete pelo WhatsApp</span><span class="chev">${ICON.chevR}</span></button><button class="row-btn" id="aIcs">${sq('calPlus', C.red)}<span>Adicionar ao calendário</span><span class="chev">${ICON.chevR}</span></button></div>
+    <div class="group"><button class="row-btn danger" id="aDel">${ICON.trash}<span>Excluir consulta</span></button></div>` : ''}`);
+  $('#aX').onclick = closeDialog;
+  $('#aOk').onclick = () => {
+    const patientId = $('#aP').value, data = $('#aD').value, hora = $('#aH').value;
+    if (!patientId) return toast('Escolha o paciente');
+    if (!data) return toast('Escolha a data');
+    const novo = { ...a, patientId, data, hora, tipo: $('#aT').value, status: $('#aS').value, notas: $('#aN').value.trim(), evolucao: $('#aE').value.trim() };
+    if (isEdit) Object.assign(db.appointments.find(x => x.id === a.id), novo); else db.appointments.push({ ...novo, id: uid() });
+    saveDB(); closeDialog(); toast('Consulta salva ✔'); route();
+  };
+  if (isEdit) {
+    $('#aDel').onclick = () => { closeDialog(); confirmDlg('Excluir esta consulta?', 'Excluir', () => { db.appointments = db.appointments.filter(x => x.id !== a.id); saveDB(); toast('Consulta excluída'); route(); }); };
+    $('#aWa').onclick = () => {
+      const p = patientById(a.patientId), f = waNumber(p && p.telefone);
+      if (!f) return toast('Paciente sem telefone cadastrado');
+      const msg = lembreteMsg({ ...a, patientId: a.patientId, data: $('#aD').value || a.data, hora: $('#aH').value || a.hora, tipo: $('#aT').value });
+      openWhatsApp(f, msg);
+    };
+    $('#aIcs').onclick = () => downloadICS(a);
+  }
+}
+function downloadICS(a) {
+  const p = patientById(a.patientId), dt = a.data.replace(/-/g, '') + 'T' + (a.hora || '09:00').replace(':', '') + '00';
+  const end = new Date(a.data + 'T' + (a.hora || '09:00') + ':00'); end.setMinutes(end.getMinutes() + 50);
+  const e = `${end.getFullYear()}${pad(end.getMonth() + 1)}${pad(end.getDate())}T${pad(end.getHours())}${pad(end.getMinutes())}00`;
+  const ics = `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Kuravo//PT\r\nBEGIN:VEVENT\r\nUID:${a.id}@anamnese\r\nDTSTAMP:${dt}\r\nDTSTART:${dt}\r\nDTEND:${e}\r\nSUMMARY:${a.tipo || 'Consulta'} - ${p ? p.nome : ''}\r\nDESCRIPTION:${(a.notas || '').replace(/\n/g, ' ')}\r\nEND:VEVENT\r\nEND:VCALENDAR`;
+  download('consulta.ics', ics, 'text/calendar');
+}
+
+/* ============ AJUSTES (estilo Ajustes do iPhone) ============ */
+function viewConfig() {
+  const s = db.settings;
+  return ptitle('Ajustes', { cls: 'pt-center' }) + `<div class="settings">
+    ${Account.settingsCard()}
+    <h3 class="sec">Profissional</h3>
+    <div class="group form">
+      <label class="srow">${sq('person', C.blue)}<span class="sl">Seu nome</span><input type="text" id="sNome" class="sin" value="${esc(s.profissional)}" placeholder="Opcional"></label>
+      <label class="srow">${sq('building', C.indigo)}<span class="sl">Clínica</span><input type="text" id="sClin" class="sin" value="${esc(s.clinica)}" placeholder="Opcional"></label>
+      <label class="srow">${sq('globe', C.green)}<span class="sl">País dos telefones</span><select id="sPais" class="sin">${PAISES.map(([c, n]) => `<option value="${c}" ${c === (s.pais || '33') ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+      <label class="srow">${sq('idcard', C.gray)}<span class="sl">Mostrar campo CPF</span><input type="checkbox" id="sCpf" class="switch" ${s.mostrarCpf ? 'checked' : ''}></label>
+      <label class="srow">${sq('moon', C.indigo)}<span class="sl">Aparência</span><select id="sTema" class="sin"><option value="auto" ${s.tema === 'auto' ? 'selected' : ''}>Automática</option><option value="light" ${s.tema === 'light' ? 'selected' : ''}>Clara</option><option value="dark" ${s.tema === 'dark' ? 'selected' : ''}>Escura</option></select></label>
+    </div>
+    <div class="gfoot"><button class="btn primary" id="sSave">${ICON.check} Salvar</button></div>
+
+    <h3 class="sec">Lembrete por WhatsApp</h3>
+    <div class="group pad">
+      <p class="hint">Texto enviado pelo botão “Enviar lembrete” da consulta. Toque numa variável para inserir:</p>
+      <div class="tags">${['nome', 'nome_completo', 'diasemana', 'data', 'hora', 'tipo', 'profissional', 'clinica'].map(v => `<button type="button" class="chip var" data-var="${v}">{${v}}</button>`).join('')}</div>
+      <textarea id="mTxt" class="fin">${esc(s.msgLembrete || MSG_PADRAO)}</textarea>
+      <div class="bubble-wrap"><span class="hint">Pré-visualização</span><div id="mPrev" class="bubble-out"></div></div>
+      <div class="row"><button class="btn primary" id="mSave">Salvar mensagem</button><button class="btn" id="mReset">Texto padrão</button></div>
+    </div>
+    <p class="gnote">Emojis podem não aparecer corretamente quando a mensagem é enviada pelo WhatsApp do computador (Windows).</p>
+
+    ${Account.privacyCard()}
+
+    <h3 class="sec">Cópia de segurança</h3>
+    <div class="group">
+      <button class="row-btn" id="bExp">${sq('download', C.blue)}<span>Exportar backup</span><span class="chev">${ICON.chevR}</span></button>
+      <button class="row-btn" id="bImp">${sq('upload', C.indigo)}<span>Importar backup</span><span class="chev">${ICON.chevR}</span></button>
+      <button class="row-btn" id="bCsv">${sq('table', C.green)}<span>Exportar planilha (CSV)</span><span class="chev">${ICON.chevR}</span></button>
+    </div>
+    <p class="gnote">Seus dados já ficam salvos (criptografados) na sua conta. <b>O arquivo exportado NÃO é criptografado</b> e contém dados de saúde: guarde em local seguro e apague depois.</p>
+    <input type="file" id="fImp" accept=".json,application/json" class="hidden">
+
+    <h3 class="sec">Zona de perigo</h3>
+    <div class="group">
+      <button class="row-btn danger" id="bWipe">${ICON.trash}<span>Apagar todos os pacientes</span></button>
+      <button class="row-btn danger" id="bDelAcc">${ICON.person}<span>Excluir minha conta</span></button>
+    </div>
+    <p class="gnote">Excluir a conta apaga definitivamente todos os dados do servidor (direito ao apagamento).</p>
+    <p class="version">Kuravo · versão ${window.APP_VERSION || '2.0'}</p>
+  </div>`;
+}
+function download(name, content, type) {
+  const url = URL.createObjectURL(new Blob([content], { type: type + ';charset=utf-8' }));
+  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+function bindConfig() {
+  $('#sSave').onclick = () => { db.settings.profissional = $('#sNome').value.trim(); db.settings.clinica = $('#sClin').value.trim(); db.settings.tema = $('#sTema').value; db.settings.pais = $('#sPais').value; db.settings.mostrarCpf = $('#sCpf').checked; saveDB(); applyTheme(); toast('Ajustes salvos ✔'); };
+  const exemplo = { patientId: (db.patients[0] || {}).id, data: addDays(todayStr(), 1), hora: '09:00', tipo: 'Consulta' };
+  const prev = () => { $('#mPrev').textContent = lembreteMsg(exemplo, $('#mTxt').value) || '(mensagem vazia)'; };
+  $('#mTxt').oninput = prev; prev();
+  document.querySelectorAll('[data-var]').forEach(b => b.onclick = () => {
+    const t = $('#mTxt'), ins = '{' + b.dataset.var + '}', i = t.selectionStart ?? t.value.length, j = t.selectionEnd ?? i;
+    t.value = t.value.slice(0, i) + ins + t.value.slice(j); t.focus(); t.selectionStart = t.selectionEnd = i + ins.length; prev();
+  });
+  $('#mSave').onclick = () => { const v = $('#mTxt').value.trim(); db.settings.msgLembrete = (!v || v === MSG_PADRAO) ? '' : v; saveDB(); toast('Mensagem salva ✔'); };
+  $('#mReset').onclick = () => { $('#mTxt').value = MSG_PADRAO; db.settings.msgLembrete = ''; saveDB(); prev(); toast('Texto padrão restaurado'); };
+  Account.bindSettings();
+  $('#bDelAcc').onclick = Account.deleteAccountDialog;
+  $('#bExp').onclick = () => { download(`backup-anamnese-${todayStr()}.json`, JSON.stringify(db, null, 2), 'application/json'); toast('Backup exportado ✔'); };
+  $('#bImp').onclick = () => $('#fImp').click();
+  $('#fImp').onchange = e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const d = JSON.parse(r.result);
+        if (!d || !Array.isArray(d.patients) || !Array.isArray(d.appointments)) throw new Error();
+        confirmDlg(`Importar ${d.patients.length} paciente(s) e ${d.appointments.length} consulta(s)? Os dados atuais serão <b>substituídos</b>.`, 'Importar', () => {
+          const { pin, ...st } = d.settings || {};
+          db = { ...DEFAULTS(), patients: d.patients, appointments: d.appointments, settings: { ...DEFAULTS().settings, ...st } }; saveDB(); applyTheme(); toast('Backup restaurado ✔'); location.hash = '#/'; route();
+        });
+      } catch (err) { toast('Arquivo de backup inválido'); }
+    };
+    r.readAsText(f);
+  };
+  $('#bCsv').onclick = () => {
+    const cols = ['nome','nascimento','genero','telefone','email','cpf','profissao','queixa','doencas','doencasOutras','medicamentos','alergias','cirurgias','histFamDoencas','histFamiliar','objetivos','plano','peso','altura'];
+    const q = v => '"' + String(Array.isArray(v) ? v.join('; ') : (v ?? '')).replace(/"/g, '""') + '"';
+    download('pacientes.csv', '﻿' + cols.join(';') + '\n' + db.patients.map(p => cols.map(c => q(p[c])).join(';')).join('\n'), 'text/csv');
+  };
+  $('#bWipe').onclick = () => confirmDlg('Apagar <b>todos</b> os pacientes e consultas? Exporte um backup antes se quiser guardar.', 'Apagar tudo', () => { db.patients = []; db.appointments = []; saveDB(); toast('Dados apagados'); location.hash = '#/'; route(); });
+}
+
+/* ============ início: a tela de entrada vem da conta (account.js) ============ */
+function boot() {
+  applyTheme();
+  Account.init();   // mostra "Entrar"; depois do login chama route()
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+boot();
+</script>
+</body>
+</html>

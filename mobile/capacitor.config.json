@@ -1,0 +1,7 @@
+{
+  "appId": "app.anamnese.mobile",
+  "appName": "Kuravo",
+  "webDir": "www",
+  "server": { "androidScheme": "https", "cleartext": false },
+  "android": { "allowMixedContent": false, "webContentsDebuggingEnabled": false }
+}
